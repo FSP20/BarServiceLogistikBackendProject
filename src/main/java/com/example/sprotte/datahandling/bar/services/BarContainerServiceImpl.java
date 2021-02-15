@@ -159,6 +159,8 @@ public class BarContainerServiceImpl implements BarContainerService{
     public BarContainer mapNewBarContainerDtoToBarContainer(SaveNewBarContainerDto dto) {
         BarContainer barContainer = new BarContainer();
 
+        int i = 0;
+
         barContainer.setDescription(dto.getBarContainerDescription());
 
         if(dto.getBarSegmentId() != 0) {
