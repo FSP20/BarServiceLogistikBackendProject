@@ -13,6 +13,7 @@ public class DatabaseConstants {
     public static final String BAR_SEGMENT_TABLE = "bar_segment";
     public static final String CONTAINER_CATEGORY_TABLE = "container_category";
     public static final String BAR_CONTAINER_TABLE = "bar_container";
+    public static final String PRODUCT_TABLE = "product";
 
     // Join Table
     public static final String EMPLOYEE_HAS_ROLE = "employee_has_role";
@@ -70,4 +71,7 @@ public class DatabaseConstants {
     // Bar Container
     public static final String ID_BAR_CONTAINER = "id_bar_container";
     public static final String BAR_CONTAINER_DESCRIPTION = "description";
+
+    // Product
+    public static final String ID_PRODUCT = "id_product";
 }
