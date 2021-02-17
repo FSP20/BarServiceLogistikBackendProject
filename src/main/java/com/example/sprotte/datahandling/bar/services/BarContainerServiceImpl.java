@@ -48,7 +48,7 @@ public class BarContainerServiceImpl implements BarContainerService{
             if (barContainer == null) {
                 return barContainerRepository.save(mapNewBarContainerDtoToBarContainer(dto));
             } else {
-                throw new BarContainerNotFoundException(ResponseMessageConstants.BAR_CONTAINER_ALREADY_EXIST);
+                throw new IllegalBarContainerException(ResponseMessageConstants.BAR_CONTAINER_ALREADY_EXIST);
             }
         } else {
             throw new RuntimeException(ResponseMessageConstants.BAR_CONTAINER_IS_EMPTY);
@@ -158,8 +158,6 @@ public class BarContainerServiceImpl implements BarContainerService{
 
     public BarContainer mapNewBarContainerDtoToBarContainer(SaveNewBarContainerDto dto) {
         BarContainer barContainer = new BarContainer();
-
-        int i = 0;
 
         barContainer.setDescription(dto.getBarContainerDescription());
 
