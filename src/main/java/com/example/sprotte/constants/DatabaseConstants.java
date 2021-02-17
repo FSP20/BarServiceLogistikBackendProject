@@ -74,4 +74,7 @@ public class DatabaseConstants {
 
     // Product
     public static final String ID_PRODUCT = "id_product";
+    public static final String PRODUCT_DESCRIPTION = "description";
+    public static final String PRODUCT_QUANTITY = "quantity";
+    public static final String PRODUCT_UNIT_OF_MEASURE = "unit_of_measure";
 }

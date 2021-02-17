@@ -20,6 +20,7 @@ public class ResponseMessageConstants {
 	public static final String BAR_SEGMENT_NOT_FOUND = "Bar Segment not found, please choose a other Bar Segment";
 	public static final String CONTAINER_CATEGORY_NOT_FOUND = "Container Category not found, please choose a other Container Category";
 	public static final String BAR_CONTAINER_NOT_FOUND = "Bar Container not found, please choose a other Bar Container";
+	public static final String PRODUCT_NOT_FOUND = "Product not found";
 
 	//Employee SCRUD Strings
 	public static final String EMPLOYEE_SUCCESSFULLY_DELETED = "Employee successfully deleted";
@@ -65,5 +66,10 @@ public class ResponseMessageConstants {
 	public static final String BAR_CONTAINER_ALREADY_EXIST = "Bar Container already exist";
 	public static final String BAR_CONTAINER_MUST_ASSIGNED_TO_BAR_SEGMENT = "Bar Container must be assigned to a bar segment";
 	public static final String BAR_CONTAINER_MUST_ASSIGNED_TO_CONTAINER_CATEGORY = "Bar Container must be assigned to a container category";
-	public static final String BAR_CONTAINEr_SUCCESSFULLY_DELETE = "Bar Container successfully deleted";
+	public static final String BAR_CONTAINER_SUCCESSFULLY_DELETE = "Bar Container successfully deleted";
+
+	// Product Strings
+	public static final String PRODUCT_IS_EMPTY = "Product Object is empty";
+	public static final String PRODUCT_ALREADY_EXIST = "Product already exist";
+	public static final String PRODUCT_SUCCESSFULLY_DELETE = "Product successfully deleted";
 }

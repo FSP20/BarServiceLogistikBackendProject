@@ -99,7 +99,7 @@ public class BarContainerServiceImpl implements BarContainerService{
             throw new BarContainerNotFoundException(ResponseMessageConstants.BAR_CONTAINER_NOT_FOUND);
 
         barContainerRepository.deleteById(barContainerId);
-        return ResponseMessageConstants.BAR_CONTAINEr_SUCCESSFULLY_DELETE;
+        return ResponseMessageConstants.BAR_CONTAINER_SUCCESSFULLY_DELETE;
     }
 
     @Override
