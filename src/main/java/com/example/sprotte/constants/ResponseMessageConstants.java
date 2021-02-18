@@ -31,6 +31,7 @@ public class ResponseMessageConstants {
 	public static final String EMPLOYEE_HAS_ALREADY_ROLE = "Employee has Role already";
 	public static final String REMOVE_ROLE_FROM_EMPLOYEE = "Role removed successfully from employee";
 	public static final String UPDATE_MAX_NUMBERS_OF_ORDERS = "Updated maxNumbersOfOrders successfully";
+	public static final String EMPLOYEE_IS_EMPTY = "Employee Object is empty";
 
 	// Role SCRUD Strings
 	public static final String ROLE_IS_EMPTY = "Role Object is empty";
