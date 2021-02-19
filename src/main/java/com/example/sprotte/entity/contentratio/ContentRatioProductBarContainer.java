@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class ContentRatioProductBarContainer {
 
     @EmbeddedId
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private ContentRatioProductBarContainerId id = new ContentRatioProductBarContainerId();
 
     @JsonBackReference

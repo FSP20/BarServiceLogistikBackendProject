@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class ContainerCategory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = DatabaseConstants.ID_CONTAINER_CATEGORY)
     private Long id;
 

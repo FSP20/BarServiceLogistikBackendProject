@@ -44,7 +44,7 @@ public class BarContainerServiceImpl implements BarContainerService{
     public BarContainer saveBarContainer(SaveNewBarContainerDto dto) {
         if (dto.getBarContainerDescription() != null) {
             // Proof Bar Container Description already exist
-            BarContainer barContainer = findBarContainerByDescription(dto.getBarContainerDescription());
+            BarContainer barContainer = findByDescription(dto.getBarContainerDescription());
             if (barContainer == null) {
                 return barContainerRepository.save(mapNewBarContainerDtoToBarContainer(dto));
             } else {
@@ -66,11 +66,11 @@ public class BarContainerServiceImpl implements BarContainerService{
 
     @Override
     public BarContainer findBarContainerByDescription(String barContainerDescription) {
-        BarContainer barContainer = findBarContainerByDescription(barContainerDescription);
+        BarContainer barContainer = findByDescription(barContainerDescription);
         if (barContainer == null)
             throw new BarContainerNotFoundException(ResponseMessageConstants.BAR_CONTAINER_NOT_FOUND);
 
-        return null;
+        return barContainer;
     }
 
     @Override

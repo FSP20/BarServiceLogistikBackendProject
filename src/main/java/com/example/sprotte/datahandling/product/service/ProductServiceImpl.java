@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductService{
     public Product saveProduct(SaveNewProductDto dto) {
         if (dto.getProductDescription() != null) {
             // Proof Product Description already exist
-            Product product = findProductByDescription(dto.getProductDescription());
+            Product product = productRepository.findByDescription(dto.getProductDescription());
             if (product == null) {
                 return productRepository.save(mapNewProductDtoToProduct(dto));
             } else {
