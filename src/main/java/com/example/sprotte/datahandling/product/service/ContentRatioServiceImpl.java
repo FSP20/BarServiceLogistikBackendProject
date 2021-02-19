@@ -34,6 +34,8 @@ public class ContentRatioServiceImpl implements ContentRatioService{
         contentRatio.setMaxQuantity(dto.getMaxQuantity());
         contentRatio.setActualQuantity(dto.getActualQuantity());
         contentRatio.setThreshold(dto.getThreshold());
+        contentRatio.getId().setProductId(product.getId());
+        contentRatio.getId().setBarContainerId(barContainer.getId());
 
         return contentRatioRepository.save(contentRatio);
     }
