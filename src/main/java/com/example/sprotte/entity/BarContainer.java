@@ -1,9 +1,13 @@
 package com.example.sprotte.entity;
 
 import com.example.sprotte.constants.DatabaseConstants;
+import com.example.sprotte.entity.contentratio.ContentRatioProductBarContainer;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = DatabaseConstants.BAR_CONTAINER_TABLE)
@@ -27,6 +31,10 @@ public class BarContainer {
     @ManyToOne(fetch = FetchType.LAZY, cascade= {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
     @JoinColumn(name = DatabaseConstants.ID_BAR_SEGMENT)
     private BarSegment barSegment;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "barContainer")
+    private List<ContentRatioProductBarContainer> ratioProductBarContainers = new ArrayList<>();
 
 
     public BarContainer() {
@@ -67,5 +75,13 @@ public class BarContainer {
 
     public void setBarSegment(BarSegment barSegment) {
         this.barSegment = barSegment;
+    }
+
+    public List<ContentRatioProductBarContainer> getRatioProductBarContainers() {
+        return ratioProductBarContainers;
+    }
+
+    public void setRatioProductBarContainers(List<ContentRatioProductBarContainer> ratioProductBarContainers) {
+        this.ratioProductBarContainers = ratioProductBarContainers;
     }
 }

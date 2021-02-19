@@ -74,7 +74,7 @@ public class ProductServiceImpl implements ProductService{
         Product product = findById(productId);
         if (product == null)
             throw new ProductNotFoundException(ResponseMessageConstants.PRODUCT_NOT_FOUND);
-        product.setProductDescription(productDescription);
+        product.setDescription(productDescription);
 
         return productRepository.save(product);
     }
@@ -96,7 +96,7 @@ public class ProductServiceImpl implements ProductService{
     public Product mapNewProductDtoToProduct(SaveNewProductDto dto) {
         Product product = new Product();
 
-        product.setProductDescription(dto.getProductDescription());
+        product.setDescription(dto.getProductDescription());
         product.setQuantity(dto.getQuantity());
         product.setUnitOfMeasure(dto.getUnitOfMeasure());
 
@@ -108,7 +108,7 @@ public class ProductServiceImpl implements ProductService{
         if (product == null)
             throw new ProductNotFoundException(ResponseMessageConstants.PRODUCT_NOT_FOUND);
 
-        product.setProductDescription(dto.getProductDescription());
+        product.setDescription(dto.getProductDescription());
         product.setQuantity(dto.getQuantity());
         product.setUnitOfMeasure(dto.getUnitOfMeasure());
 

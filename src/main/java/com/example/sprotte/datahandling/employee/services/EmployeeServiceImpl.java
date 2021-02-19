@@ -1,6 +1,5 @@
 package com.example.sprotte.datahandling.employee.services;
 
-import com.example.sprotte.constants.EntityEnums;
 import com.example.sprotte.constants.ResponseMessageConstants;
 import com.example.sprotte.datahandling.device.repository.DeviceRepository;
 import com.example.sprotte.datahandling.employee.repository.EmployeeEmployeeRepository;
@@ -37,14 +36,15 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Autowired
 	EmployeeHelperClass helperClass;
 
-	@Autowired
-	EmployeeExceptionHandler exceptionHandler;
+//	@Autowired
+//	EmployeeExceptionHandler exceptionHandler;
 
 	@Override
 	public Employee getEmployeeById(Long employeeId) {
 		Optional<Employee> employee = employeeRepository.findById(employeeId);
 		if(!employee.isPresent())
-			exceptionHandler.notFoundException(EntityEnums.EMPLOYEE);
+			//exceptionHandler.notFoundException(EntityEnums.EMPLOYEE);
+			throw new EmployeeNotFoundException(ResponseMessageConstants.EMPLOYEE_NOT_FOUND);
 
 		return employee.get();
 	}

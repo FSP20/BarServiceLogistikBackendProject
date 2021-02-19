@@ -18,6 +18,7 @@ public class DatabaseConstants {
     // Join Table
     public static final String EMPLOYEE_HAS_ROLE = "employee_has_role";
     public static final String EMPLOYEE_HAS_WORK_SHIFT = "employee_has_work_shift";
+    public static final String PRODUCT_BAR_CONTAINER_CONTENT_RATIO = "product_barcontainer_contentratio";
 
     // Attribute Name
     // Access Data
@@ -77,4 +78,9 @@ public class DatabaseConstants {
     public static final String PRODUCT_DESCRIPTION = "description";
     public static final String PRODUCT_QUANTITY = "quantity";
     public static final String PRODUCT_UNIT_OF_MEASURE = "unit_of_measure";
+
+    // ContentRatio
+    public static final String CONTENT_RATIO_MAX_QUANTITY = "max_quantity";
+    public static final String CONTENT_RATIO_ACTUAL_QUANTITY = "actual_quantity";
+    public static final String CONTENT_RATIO_THRESHOLD = "threshold";
 }
