@@ -6,4 +6,12 @@ import com.example.sprotte.entity.contentratio.ContentRatioProductBarContainer;
 public interface ContentRatioService {
 
     public ContentRatioProductBarContainer setContentRatioProductBarContainer(SaveContentRatioProductBarContainerDto dto);
+
+    public ContentRatioProductBarContainer updateMaxQuantityContentRatio(Long productId, Long barContainerId, int maxQuantity);
+
+    public ContentRatioProductBarContainer updateActualQuantityContentRatio(Long productId, Long barContainerId, int actualQuantity);
+
+    public ContentRatioProductBarContainer updateThresholdContentRatio(Long productId, Long barContainerId, int threshold);
+
+    public String deleteRelationContentRatio(Long productId, Long barContainerId);
 }

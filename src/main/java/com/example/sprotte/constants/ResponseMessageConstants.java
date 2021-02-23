@@ -21,6 +21,7 @@ public class ResponseMessageConstants {
 	public static final String CONTAINER_CATEGORY_NOT_FOUND = "Container Category not found, please choose a other Container Category";
 	public static final String BAR_CONTAINER_NOT_FOUND = "Bar Container not found, please choose a other Bar Container";
 	public static final String PRODUCT_NOT_FOUND = "Product not found";
+	public static final String CONTENT_RATIO_NOT_FOUND = "This Relation doesn't exist already";
 
 	//Employee SCRUD Strings
 	public static final String EMPLOYEE_SUCCESSFULLY_DELETED = "Employee successfully deleted";
@@ -73,4 +74,7 @@ public class ResponseMessageConstants {
 	public static final String PRODUCT_IS_EMPTY = "Product Object is empty";
 	public static final String PRODUCT_ALREADY_EXIST = "Product already exist";
 	public static final String PRODUCT_SUCCESSFULLY_DELETE = "Product successfully deleted";
+
+	// Content Ratio Product & Bar Container
+	public static final String CONTENT_RATIO_SUCCESSFULLY_DELETE = "The Relation successfully deleted";
 }
