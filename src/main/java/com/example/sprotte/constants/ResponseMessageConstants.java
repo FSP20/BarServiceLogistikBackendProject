@@ -77,4 +77,5 @@ public class ResponseMessageConstants {
 
 	// Content Ratio Product & Bar Container
 	public static final String CONTENT_RATIO_SUCCESSFULLY_DELETE = "The Relation successfully deleted";
+	public static final String CONTENT_RATIO_ALREADY_EXIST = "The Relation is already existing";
 }

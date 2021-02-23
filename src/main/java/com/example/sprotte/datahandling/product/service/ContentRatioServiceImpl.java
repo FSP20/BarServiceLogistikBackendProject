@@ -10,6 +10,7 @@ import com.example.sprotte.entity.Product;
 import com.example.sprotte.entity.contentratio.ContentRatioProductBarContainer;
 import com.example.sprotte.errorhandling.Bar.BarContainerNotFoundException;
 import com.example.sprotte.errorhandling.product.ContentRatioRelationNotFoundException;
+import com.example.sprotte.errorhandling.product.IllegalContentRatioException;
 import com.example.sprotte.errorhandling.product.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,11 @@ public class ContentRatioServiceImpl implements ContentRatioService{
         if(barContainer == null)
             throw new BarContainerNotFoundException(ResponseMessageConstants.BAR_CONTAINER_NOT_FOUND);
 
-        ContentRatioProductBarContainer contentRatio = new ContentRatioProductBarContainer();
+        ContentRatioProductBarContainer contentRatio = findContentRatioByProductIdAndBarContainerId(dto.getProductId(), dto.getBarContainerId());
+        if (contentRatio != null)
+            throw new IllegalContentRatioException(ResponseMessageConstants.CONTENT_RATIO_ALREADY_EXIST);
+
+        contentRatio = new ContentRatioProductBarContainer();
         contentRatio.setBarContainer(barContainer);
         contentRatio.setProduct(product);
         contentRatio.setMaxQuantity(dto.getMaxQuantity());
