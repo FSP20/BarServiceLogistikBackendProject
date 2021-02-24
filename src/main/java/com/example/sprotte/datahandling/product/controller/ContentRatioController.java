@@ -32,7 +32,7 @@ public class ContentRatioController {
         return contentRatioService.updateActualQuantityContentRatio(productId, barContainerID, actualQuantity);
     }
 
-    @PutMapping("/updateThresholdContentRatio/{productId}/{barContainerId}/{max}")
+    @PutMapping("/updateThresholdContentRatio/{productId}/{barContainerId}/{threshold}")
     ContentRatioProductBarContainer updateThresholdContentRatio(@PathVariable("productId") Long productId,
                                                                 @PathVariable("barContainerId") Long barContainerID,
                                                                 @PathVariable("threshold") int threshold) {

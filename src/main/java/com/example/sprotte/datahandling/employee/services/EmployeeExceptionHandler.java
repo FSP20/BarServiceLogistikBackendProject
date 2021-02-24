@@ -5,7 +5,7 @@ import com.example.sprotte.errorhandling.Employee.*;
 import com.example.sprotte.errorhandling.EntityExceptionHandler;
 import com.example.sprotte.constants.EntityEnums;
 
-public class EmployeeExceptionHandler extends EntityExceptionHandler {
+public class    EmployeeExceptionHandler extends EntityExceptionHandler {
 
     @Override
     public void notFoundException(EntityEnums entity) {
