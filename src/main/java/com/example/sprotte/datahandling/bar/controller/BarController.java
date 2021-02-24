@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/bar")
+@RestController
+@RequestMapping("/bar")
 public class BarController {
 
     @Autowired

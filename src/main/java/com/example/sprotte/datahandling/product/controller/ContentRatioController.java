@@ -6,7 +6,8 @@ import com.example.sprotte.entity.contentratio.ContentRatioProductBarContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/contentRatio")
+@RestController
+@RequestMapping("/contentRatio")
 public class ContentRatioController {
 
     @Autowired

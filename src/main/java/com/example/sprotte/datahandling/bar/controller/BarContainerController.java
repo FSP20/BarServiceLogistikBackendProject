@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/barContainer")
+@RestController
+@RequestMapping("/barContainer")
 public class BarContainerController {
 
     @Autowired

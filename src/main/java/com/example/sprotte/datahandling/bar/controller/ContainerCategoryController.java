@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/containerCategory")
+@RestController
+@RequestMapping("/containerCategory")
 public class ContainerCategoryController {
 
     @Autowired
