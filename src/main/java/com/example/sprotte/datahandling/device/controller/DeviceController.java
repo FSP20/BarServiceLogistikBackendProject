@@ -33,7 +33,7 @@ public class DeviceController {
         return deviceService.findByDeviceName(device);
     }
 
-    @PostMapping("/updateDevice")
+    @PutMapping("/updateDevice")
     public Device updateDevice(@RequestBody UpdateDeviceDto dto) {
         return deviceService.updateDevice(dto);
     }
@@ -43,12 +43,12 @@ public class DeviceController {
         return deviceService.deleteDeviceById(deviceId);
     }
 
-    @PostMapping("addBarToDevice/{deviceId}/{barId}")
+    @PutMapping("addBarToDevice/{deviceId}/{barId}")
     public Device addBarToDevice(@PathVariable("deviceId") Long deviceId, @PathVariable("barId") Long barId) {
         return deviceService.addBarToDevice(deviceId, barId);
     }
 
-    @PostMapping("removeBarFromDevice/{deviceId}/{barId}")
+    @PutMapping("removeBarFromDevice/{deviceId}/{barId}")
     public Device removeBarFromDevice(@PathVariable("deviceId") Long deviceId, @PathVariable("barId") Long barId) {
         return deviceService.removeBarFromDevice(deviceId, barId);
     }

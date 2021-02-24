@@ -38,17 +38,17 @@ public class EmployeeController {
 		employeeService.deleteEmployeeById(employeeId);
 	}
 
-	@PostMapping("/updateemployee")
+	@PutMapping("/updateemployee")
 	public Employee updateEmployee(@RequestBody UpdateEmployeeDto dto) {
 		return employeeService.updateEmployee(dto);
 	}
 
-	@PostMapping("/changepassword")
+	@PutMapping("/changepassword")
 	public String changePasswordById(@RequestBody EmployeeChangePasswordDto dto) {
 		return employeeService.changePasswordById(dto);
 	}
 
-	@PostMapping("/changeusername/{id}/{username}")
+	@PutMapping("/changeusername/{id}/{username}")
 	public String changeUsernameById(@PathVariable("id") Long employeeId, @PathVariable("username") String newUsername) {
 		return employeeService.changeUsernameById(employeeId, newUsername);
 	}
@@ -58,17 +58,17 @@ public class EmployeeController {
 		return employeeService.getEmployees();
 	}
 
-	@PostMapping("/setactive/{employeeId}/{deviceId}")
+	@PutMapping("/setactive/{employeeId}/{deviceId}")
 	public void setEmployeeActiveById(@PathVariable("employeeId") Long employeeId, @PathVariable("deviceId") Long deviceId) {
 		employeeService.setEmployeeActiveById(employeeId, deviceId);
 	}
 
-	@PostMapping("/setinactive/{employeeId}/{deviceId}")
+	@PutMapping("/setinactive/{employeeId}/{deviceId}")
 	public void setEmployeeInactiveById(@PathVariable("employeeId") Long employeeId, @PathVariable("deviceId") Long deviceId) {
 		employeeService.setEmployeeInactiveById(employeeId, deviceId);
 	}
 
-	@PostMapping("/setroleemployee/{employeeId}/{rolename}")
+	@PutMapping("/setroleemployee/{employeeId}/{rolename}")
 	public Employee addRoleToEmployee(@PathVariable("employeeId") Long employeeId, @PathVariable("rolename") String roleName) {
 		return employeeService.addRoleToEmployee(employeeId, roleName);
 	}
@@ -78,7 +78,7 @@ public class EmployeeController {
 		return employeeService.deleteRoleFromEmployee(employeeId, roleName);
 	}
 
-	@PostMapping("/setmaxnumbersoforders/{employeeId}/{maxnumbersoforders}")
+	@PutMapping("/setmaxnumbersoforders/{employeeId}/{maxnumbersoforders}")
 	public String updateMaxNumbersOfOrders(@PathVariable("employeeId") Long employeeId,
 										   @PathVariable("maxnumbersoforders") int maxNumbersOfOrders) {
 		return employeeService.updateMaxNumbersOfOrders(employeeId, maxNumbersOfOrders);

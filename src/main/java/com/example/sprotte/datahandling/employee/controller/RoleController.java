@@ -33,7 +33,7 @@ public class RoleController {
         return roleService.findByRoleName(role);
     }
 
-    @PostMapping("/updaterole/{id}/{roleName}")
+    @PutMapping("/updaterole/{id}/{roleName}")
     public Role updateRole(@PathVariable("id") Long roleId, @PathVariable("roleName") String roleName) {
         return roleService.updateRoleById(roleId, roleName);
     }

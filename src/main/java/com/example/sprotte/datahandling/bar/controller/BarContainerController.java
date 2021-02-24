@@ -35,12 +35,12 @@ public class BarContainerController {
         return barContainerService.findBarContainerByDescription(description);
     }
 
-    @PostMapping("/updateBarContainer")
+    @PutMapping("/updateBarContainer")
     public BarContainer updateBarContainer(@RequestBody UpdateBarContainerDto dto) {
         return barContainerService.updateBarContainer(dto);
     }
 
-    @PostMapping("/updateBarContainerDescription/{id}/{description}")
+    @PutMapping("/updateBarContainerDescription/{id}/{description}")
     public BarContainer updateBarContainerDescription(@PathVariable("id") Long barContainerId,
                                                       @PathVariable("description") String description) {
         return barContainerService.updateBarContainerDescription(barContainerId, description);
@@ -51,13 +51,13 @@ public class BarContainerController {
         return barContainerService.deleteBarContainerById(barContainerId);
     }
 
-    @PostMapping("/switchBarSegmentFromBarContainer/{barContainerId}/{barSegmentId}")
+    @PutMapping("/switchBarSegmentFromBarContainer/{barContainerId}/{barSegmentId}")
     public BarContainer switchBarSegmentFromBarContainer(@PathVariable("barContainerId") Long barContainerId,
                                                          @PathVariable("barSegmentId") Long barSegmentId) {
         return barContainerService.switchBarSegmentFromBarContainer(barContainerId, barSegmentId);
     }
 
-    @PostMapping("/switchContainerCategoryFromBarContainer/{barContainerId}/{containerCategoryId}")
+    @PutMapping("/switchContainerCategoryFromBarContainer/{barContainerId}/{containerCategoryId}")
     public BarContainer switchContainerCategoryFromBarContainer(@PathVariable("barContainerId") Long barContainerId,
                                                          @PathVariable("containerCategoryId") Long containerCategoryId) {
         return barContainerService.switchContainerCategoryFromBarContainer(barContainerId, containerCategoryId);

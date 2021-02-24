@@ -17,21 +17,21 @@ public class ContentRatioController {
         return contentRatioService.setContentRatioProductBarContainer(dto);
     }
 
-    @PostMapping("/updateMaxQuantityContentRatio/{productId}/{barContainerId}/{max}")
+    @PutMapping("/updateMaxQuantityContentRatio/{productId}/{barContainerId}/{max}")
     ContentRatioProductBarContainer updateMaxQuantityContentRatio(@PathVariable("productId") Long productId,
                                                                   @PathVariable("barContainerId") Long barContainerID,
                                                                   @PathVariable("max") int maxQuantity) {
         return contentRatioService.updateMaxQuantityContentRatio(productId, barContainerID, maxQuantity);
     }
 
-    @PostMapping("/updateActualQuantityContentRatio/{productId}/{barContainerId}/{actual}")
+    @PutMapping("/updateActualQuantityContentRatio/{productId}/{barContainerId}/{actual}")
     ContentRatioProductBarContainer updateActualQuantityContentRatio(@PathVariable("productId") Long productId,
                                                                      @PathVariable("barContainerId") Long barContainerID,
                                                                      @PathVariable("actual") int actualQuantity) {
         return contentRatioService.updateActualQuantityContentRatio(productId, barContainerID, actualQuantity);
     }
 
-    @PostMapping("/updateThresholdContentRatio/{productId}/{barContainerId}/{max}")
+    @PutMapping("/updateThresholdContentRatio/{productId}/{barContainerId}/{max}")
     ContentRatioProductBarContainer updateThresholdContentRatio(@PathVariable("productId") Long productId,
                                                                 @PathVariable("barContainerId") Long barContainerID,
                                                                 @PathVariable("threshold") int threshold) {
