@@ -15,17 +15,17 @@ public class ProductTypeController {
     ProductTypeService productTypeService;
 
     @GetMapping("/getProductTypes")
-    List<ProductType> getProducts() {
+    List<ProductType> getProductTypes() {
         return productTypeService.getProductTypes();
     }
 
     @PostMapping("/saveProductType")
-    ProductType saveProduct(@RequestBody ProductType productType) {
+    ProductType saveProductType(@RequestBody ProductType productType) {
         return productTypeService.saveProductType(productType);
     }
 
     @GetMapping("/findProductTypeById/{id}")
-    ProductType findProductById(@PathVariable("id") Long productTypeId) {
+    ProductType findProductTypeById(@PathVariable("id") Long productTypeId) {
         return productTypeService.findProductTypeById(productTypeId);
     }
 
@@ -35,7 +35,7 @@ public class ProductTypeController {
     }
 
     @DeleteMapping("/deleteProductTypeById/{id}")
-    String deleteProductById(@PathVariable("id") Long productTypeId) {
+    String deleteProductTypeById(@PathVariable("id") Long productTypeId) {
         return productTypeService.deleteProductTypeById(productTypeId);
     }
 }
