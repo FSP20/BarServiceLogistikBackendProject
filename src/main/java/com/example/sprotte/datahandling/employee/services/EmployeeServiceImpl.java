@@ -150,7 +150,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public void setEmployeeActiveById(Long employeeId, Long deviceId) {
 		// Check Employee is active on other device
-		helperClass.checkEmployeeIsActiveOnOtherDevice(employeeId);
+		helperClass.setEmployeeInactiveOnOtherDevice(employeeId);
 
 		// Set Employee active on Device
 		Device device = findDeviceById(deviceId);
