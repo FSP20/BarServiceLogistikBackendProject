@@ -14,6 +14,7 @@ public class DatabaseConstants {
     public static final String CONTAINER_CATEGORY_TABLE = "container_category";
     public static final String BAR_CONTAINER_TABLE = "bar_container";
     public static final String PRODUCT_TABLE = "product";
+    public static final String PRODUCT_TYPE_TABLE = "product_type";
 
     // Join Table
     public static final String EMPLOYEE_HAS_ROLE = "employee_has_role";
@@ -78,6 +79,14 @@ public class DatabaseConstants {
     public static final String PRODUCT_DESCRIPTION = "description";
     public static final String PRODUCT_QUANTITY = "quantity";
     public static final String PRODUCT_UNIT_OF_MEASURE = "unit_of_measure";
+
+    // Product Type
+    public static final String ID_PRODUCT_TYPE = "id_product_type";
+    public static final String PRODUCT_TYPE_DESCRIPTION = "description";
+    public static final String PRODUCT_TYPE = "product_type";
+    public static final String PRODUCT_TYPE_FOOD = "food";
+    public static final String PRODUCT_TYPE_DRINK = "drink";
+    public static final String PRODUCT_TYPE_EQUIPMENT = "equipment";
 
     // ContentRatio
     public static final String CONTENT_RATIO_MAX_QUANTITY = "max_quantity";

@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/barsegment")
+@RestController
+@RequestMapping("/barsegment")
 public class BarSegmentController {
 
     @Autowired
@@ -35,12 +36,12 @@ public class BarSegmentController {
         return barSegmentService.findBarSegmentByDescription(barSegmentDescription);
     }
 
-    @PostMapping("/updateBarSegment")
+    @PutMapping("/updateBarSegment")
     public BarSegment updateBarSegment(@RequestBody UpdateBarSegmentDto dto) {
         return barSegmentService.updateBarSegment(dto);
     }
 
-    @PostMapping("/updateBarSegmentDescription/{id}/{description}")
+    @PutMapping("/updateBarSegmentDescription/{id}/{description}")
     public BarSegment updateBarSegmentDescription(@PathVariable("id") Long barSegmentId,
                                                   @PathVariable("description") String description) {
         return barSegmentService.updateBarSegmentDescription(barSegmentId, description);
@@ -51,13 +52,13 @@ public class BarSegmentController {
         return barSegmentService.deleteBarSegmentById(barSegmentId);
     }
 
-    @PostMapping("/switchBarFromBarSegment/{barSegmentId}/{barId}")
+    @PutMapping("/switchBarFromBarSegment/{barSegmentId}/{barId}")
     public BarSegment switchBarFromBarSegment(@PathVariable("barSegmentId") Long barSegmentId,
                                          @PathVariable("barId") Long barId) {
         return barSegmentService.switchBarFromBarSegment(barSegmentId, barId);
     }
 
-    @PostMapping("/switchBarContainerToBarSegment/{barSegmentId}/{barContainerId}")
+    @PutMapping("/switchBarContainerToBarSegment/{barSegmentId}/{barContainerId}")
     public BarSegment switchBarContainerToBarSegment(@PathVariable("barSegmentId") Long barSegmentId,
                                                      @PathVariable("barContainerId") Long barContainerId) {
         return barSegmentService.switchBarContainerToBarSegment(barSegmentId, barContainerId);

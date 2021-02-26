@@ -4,11 +4,10 @@ import com.example.sprotte.datahandling.product.service.ContentRatioService;
 import com.example.sprotte.dto.product.SaveContentRatioProductBarContainerDto;
 import com.example.sprotte.entity.contentratio.ContentRatioProductBarContainer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController("/contentRatio")
+@RestController
+@RequestMapping("/contentRatio")
 public class ContentRatioController {
 
     @Autowired
@@ -19,4 +18,30 @@ public class ContentRatioController {
         return contentRatioService.setContentRatioProductBarContainer(dto);
     }
 
+    @PutMapping("/updateMaxQuantityContentRatio/{productId}/{barContainerId}/{max}")
+    ContentRatioProductBarContainer updateMaxQuantityContentRatio(@PathVariable("productId") Long productId,
+                                                                  @PathVariable("barContainerId") Long barContainerID,
+                                                                  @PathVariable("max") int maxQuantity) {
+        return contentRatioService.updateMaxQuantityContentRatio(productId, barContainerID, maxQuantity);
+    }
+
+    @PutMapping("/updateActualQuantityContentRatio/{productId}/{barContainerId}/{actual}")
+    ContentRatioProductBarContainer updateActualQuantityContentRatio(@PathVariable("productId") Long productId,
+                                                                     @PathVariable("barContainerId") Long barContainerID,
+                                                                     @PathVariable("actual") int actualQuantity) {
+        return contentRatioService.updateActualQuantityContentRatio(productId, barContainerID, actualQuantity);
+    }
+
+    @PutMapping("/updateThresholdContentRatio/{productId}/{barContainerId}/{threshold}")
+    ContentRatioProductBarContainer updateThresholdContentRatio(@PathVariable("productId") Long productId,
+                                                                @PathVariable("barContainerId") Long barContainerID,
+                                                                @PathVariable("threshold") int threshold) {
+        return contentRatioService.updateThresholdContentRatio(productId, barContainerID, threshold);
+    }
+
+    @DeleteMapping("/deleteRelationContentRatio/{productId}/{barContainerId}")
+    String deleteRelationContentRatio(@PathVariable("productId") Long productId,
+                                      @PathVariable("barContainerId") Long barContainerID) {
+        return contentRatioService.deleteRelationContentRatio(productId, barContainerID);
+    }
 }

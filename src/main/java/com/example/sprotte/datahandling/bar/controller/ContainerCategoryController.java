@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/containerCategory")
+@RestController
+@RequestMapping("/containerCategory")
 public class ContainerCategoryController {
 
     @Autowired
@@ -23,7 +24,7 @@ public class ContainerCategoryController {
         return containerCategoryService.saveContainerCategory(containerCategory);
     }
 
-    @PostMapping("/updateContainerCategoryById/{id}")
+    @PutMapping("/updateContainerCategoryById/{id}")
     public ContainerCategory updateContainerCategoryById(@PathVariable("id") Long containerCategoryId, String containerCategory) {
         return containerCategoryService.updateContainerCategoryById(containerCategoryId, containerCategory);
     }

@@ -15,7 +15,7 @@ public class EmployeeHelperClass {
 
     // Es muss geprüft werden ob Employee schon auf einem anderen Device active ist. Falls ja wird er auf diesem Gerät
     // als inactive gesetzt. Da ein Employee nur auf einem Device active sein kann
-    public void checkEmployeeIsActiveOnOtherDevice(Long employeeId) {
+    public void setEmployeeInactiveOnOtherDevice(Long employeeId) {
         List<Device> devices = deviceRepository.findByEmployeeId(employeeId);
 
         if(devices.size() > 0) {

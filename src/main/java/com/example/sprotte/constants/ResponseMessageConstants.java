@@ -2,6 +2,9 @@ package com.example.sprotte.constants;
 
 public class ResponseMessageConstants {
 
+	// Generic
+	public static final String DELETION_SUCCESS = "Successfully deleted";
+
 	// Exception String Employee Services
 	public static final String USER_SUCCESSFUL_REGISTRATION = "Successfully Done !";
 	public static final String USER_ALREADY_EXIST = "The user with this username, already exist";
@@ -21,6 +24,7 @@ public class ResponseMessageConstants {
 	public static final String CONTAINER_CATEGORY_NOT_FOUND = "Container Category not found, please choose a other Container Category";
 	public static final String BAR_CONTAINER_NOT_FOUND = "Bar Container not found, please choose a other Bar Container";
 	public static final String PRODUCT_NOT_FOUND = "Product not found";
+	public static final String CONTENT_RATIO_NOT_FOUND = "This Relation doesn't exist already";
 
 	//Employee SCRUD Strings
 	public static final String EMPLOYEE_SUCCESSFULLY_DELETED = "Employee successfully deleted";
@@ -73,4 +77,13 @@ public class ResponseMessageConstants {
 	public static final String PRODUCT_IS_EMPTY = "Product Object is empty";
 	public static final String PRODUCT_ALREADY_EXIST = "Product already exist";
 	public static final String PRODUCT_SUCCESSFULLY_DELETE = "Product successfully deleted";
+
+    //Product Type Strings
+	public static final String PRODUCT_TYPE_NOT_SUPPORTED = "Product type is currently not supported";
+	public static final String PRODUCT_TYPE_NOT_FOUND = "Product Type not found";
+	public static final String PRODUCT_TYPE_MISSING = "Product Type is missing";
+
+    // Content Ratio Product & Bar Container
+	public static final String CONTENT_RATIO_SUCCESSFULLY_DELETE = "The Relation successfully deleted";
+	public static final String CONTENT_RATIO_ALREADY_EXIST = "The Relation is already existing";
 }

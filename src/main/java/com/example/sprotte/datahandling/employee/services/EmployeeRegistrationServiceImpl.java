@@ -105,7 +105,7 @@ public class EmployeeRegistrationServiceImpl implements EmployeeRegistrationServ
 		
 		if(device != null) {
 			// Check Employee is active on other device
-			helperClass.checkEmployeeIsActiveOnOtherDevice(employee.getId());
+			helperClass.setEmployeeInactiveOnOtherDevice(employee.getId());
 			// Device get Status "Active" because when Employee is registrated, the Employee is loged in and active
 			device.setActive(true);
 
