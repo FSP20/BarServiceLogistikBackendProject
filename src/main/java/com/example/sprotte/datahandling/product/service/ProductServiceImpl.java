@@ -5,8 +5,10 @@ import com.example.sprotte.datahandling.product.repository.ProductRepository;
 import com.example.sprotte.dto.product.SaveNewProductDto;
 import com.example.sprotte.dto.product.UpdateProductDto;
 import com.example.sprotte.entity.Product;
+import com.example.sprotte.entity.ProductType;
 import com.example.sprotte.errorhandling.product.IllegalProductException;
 import com.example.sprotte.errorhandling.product.ProductNotFoundException;
+import com.example.sprotte.errorhandling.product.ProductTypeNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,9 @@ public class ProductServiceImpl implements ProductService{
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    ProductTypeService productTypeService;
 
     @Override
     public List<Product> getProducts() {
@@ -75,6 +80,25 @@ public class ProductServiceImpl implements ProductService{
         if (product == null)
             throw new ProductNotFoundException(ResponseMessageConstants.PRODUCT_NOT_FOUND);
         product.setDescription(productDescription);
+
+        return productRepository.save(product);
+    }
+
+    @Override
+    public Product updateProductType(Long productId, Long productTypeId) {
+
+        ProductType productType = productTypeService.findProductTypeById(productTypeId);
+        Product product = findById(productId);
+
+        if(product == null)
+            throw new ProductNotFoundException(ResponseMessageConstants.PRODUCT_NOT_FOUND);
+
+        if (productType == null) {
+            throw new ProductTypeNotFoundException(ResponseMessageConstants.PRODUCT_TYPE_NOT_FOUND +
+                    "(" + productTypeId +")");
+        }
+
+        product.setProductType(productType);
 
         return productRepository.save(product);
     }

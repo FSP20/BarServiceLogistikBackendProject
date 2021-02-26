@@ -30,6 +30,11 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<ContentRatioProductBarContainer> ratioProductBarContainers = new ArrayList<>();
 
+    //Uni-Directional
+    @ManyToOne(cascade= {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
+    @JoinColumn(name = DatabaseConstants.ID_PRODUCT_TYPE)
+    private ProductType productType;
+
     public Product () {
 
     }
@@ -78,5 +83,13 @@ public class Product {
 
     public void setRatioProductBarContainers(List<ContentRatioProductBarContainer> ratioProductBarContainers) {
         this.ratioProductBarContainers = ratioProductBarContainers;
+    }
+
+    public ProductType getProductType() {
+        return productType;
+    }
+
+    public void setProductType(ProductType productType) {
+        this.productType = productType;
     }
 }
