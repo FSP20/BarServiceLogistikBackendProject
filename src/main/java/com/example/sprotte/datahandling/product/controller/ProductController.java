@@ -46,6 +46,12 @@ public class ProductController {
         return productService.updateProductDescription(productId, productDescription);
     }
 
+    @PutMapping("/updateProductType/{productId}/{productTypeId}")
+    Product updateProductType(@PathVariable("productId") Long productId,
+                                     @PathVariable("productTypeId") Long productTypeId) {
+        return productService.updateProductType(productId, productTypeId);
+    }
+
     @DeleteMapping("/deleteProductById/{id}")
     String deleteProductById(@PathVariable("id") Long productId) {
         return productService.deleteProductById(productId);
