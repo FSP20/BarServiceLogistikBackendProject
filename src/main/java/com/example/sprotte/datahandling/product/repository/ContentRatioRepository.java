@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ContentRatioRepository extends JpaRepository<ContentRatioProductBarContainer, Long> {
 
+    ContentRatioProductBarContainer findByProductIdAndBarContainerId(Long productId, Long barContainerId);
+
+    void deleteByProductIdAndBarContainerId(Long productId, Long barContainerId);
 }

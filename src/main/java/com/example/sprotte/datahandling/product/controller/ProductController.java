@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/product")
+@RestController
+@RequestMapping("/product")
 public class ProductController {
 
     @Autowired
@@ -35,12 +36,12 @@ public class ProductController {
         return productService.findProductByDescription(productDescription);
     }
 
-    @PostMapping("/updateProduct")
+    @PutMapping("/updateProduct")
     Product updateProduct(@RequestBody UpdateProductDto dto) {
         return productService.updateProduct(dto);
     }
 
-    @PostMapping("/updateProductDescription/{id}/{description}")
+    @PutMapping("/updateProductDescription/{id}/{description}")
     Product updateProductDescription(@PathVariable("id") Long productId,
                                      @PathVariable("description") String productDescription) {
         return productService.updateProductDescription(productId, productDescription);

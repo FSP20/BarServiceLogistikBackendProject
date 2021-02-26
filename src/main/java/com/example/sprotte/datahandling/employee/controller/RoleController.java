@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/role")
+@RestController
+@RequestMapping("/role")
 public class RoleController {
 
     @Autowired
@@ -33,7 +34,7 @@ public class RoleController {
         return roleService.findByRoleName(role);
     }
 
-    @PostMapping("/updaterole/{id}/{roleName}")
+    @PutMapping("/updaterole/{id}/{roleName}")
     public Role updateRole(@PathVariable("id") Long roleId, @PathVariable("roleName") String roleName) {
         return roleService.updateRoleById(roleId, roleName);
     }

@@ -41,25 +41,22 @@ public class EmployeeLoginServiceImpl implements EmployeeLoginService{
 		
 		if(profile == null)
 			throw new UsernameNotFoundException(ResponseMessageConstants.USERNAME_NOT_EXIST);
-		
-		
-		if(proofPassword(profile.getPassword(), employeeLoginDto.getPassword())) {
-			
-			Employee employee = findByProfileId(profile.getId());
-			
-			if(employee == null)
-				throw new EmployeeNotFoundException(ResponseMessageConstants.EMPLOYEE_NOT_FOUND);
-			
-			// Set Employee active on Device after Login
-			updateDeviceEmployeeRelation(employee, employeeLoginDto.getDeviceId());
-			
-			// Create new Token for Employee during Login
-			updateTokenAndTimeStamp(employee.getAccessData().getToken());
 
-			return employeeRepository.save(employee);
-		} else {
+		if(!proofPassword(profile.getPassword(), employeeLoginDto.getPassword()))
 			throw new WrongPasswordException(ResponseMessageConstants.PASSWORD_IS_WRONG);
-		}
+			
+		Employee employee = findByProfileId(profile.getId());
+			
+		if(employee == null)
+			throw new EmployeeNotFoundException(ResponseMessageConstants.EMPLOYEE_NOT_FOUND);
+
+		// Set Employee active on Device after Login
+		updateDeviceEmployeeRelation(employee, employeeLoginDto.getDeviceId());
+
+		// Create new Token for Employee during Login
+		updateTokenAndTimeStamp(employee.getAccessData().getToken());
+
+		return employeeRepository.save(employee);
 	}
 	
 	
@@ -85,8 +82,8 @@ public class EmployeeLoginServiceImpl implements EmployeeLoginService{
 	// Set Employee active in Device OR add Employee to Device if Employee is not registrated at the given device
 	public void updateDeviceEmployeeRelation(Employee employee, Long deviceId) {
 
-		// Check Employee is active on other device
-		helperClass.checkEmployeeIsActiveOnOtherDevice(employee.getId());
+		// Set Employee  inactive on other device
+		helperClass.setEmployeeInactiveOnOtherDevice(employee.getId());
 
 		boolean isEmployeeRegisteredOnDevice =
 				checkEmployeeIsRegisteredOnDevice(employee.getDevices(), deviceId);
