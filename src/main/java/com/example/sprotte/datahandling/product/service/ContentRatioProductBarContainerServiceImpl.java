@@ -2,7 +2,7 @@ package com.example.sprotte.datahandling.product.service;
 
 import com.example.sprotte.constants.ResponseMessageConstants;
 import com.example.sprotte.datahandling.bar.repository.BarContainerRepository;
-import com.example.sprotte.datahandling.product.repository.ContentRatioRepository;
+import com.example.sprotte.datahandling.product.repository.ContentRatioProductBarContainerRepository;
 import com.example.sprotte.datahandling.product.repository.ProductRepository;
 import com.example.sprotte.dto.product.SaveContentRatioProductBarContainerDto;
 import com.example.sprotte.entity.BarContainer;
@@ -16,10 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ContentRatioServiceImpl implements ContentRatioService{
+public class ContentRatioProductBarContainerServiceImpl implements ContentRatioProductBarContainerService {
 
     @Autowired
-    ContentRatioRepository contentRatioRepository;
+    ContentRatioProductBarContainerRepository contentRatioRepository;
 
     @Autowired
     ProductRepository productRepository;
@@ -30,12 +30,8 @@ public class ContentRatioServiceImpl implements ContentRatioService{
     @Override
     public ContentRatioProductBarContainer setContentRatioProductBarContainer(SaveContentRatioProductBarContainerDto dto) {
         Product product = findProductById(dto.getProductId());
-        if(product == null)
-            throw new ProductNotFoundException(ResponseMessageConstants.PRODUCT_NOT_FOUND);
 
         BarContainer barContainer = findBarContainerById(dto.getBarContainerId());
-        if(barContainer == null)
-            throw new BarContainerNotFoundException(ResponseMessageConstants.BAR_CONTAINER_NOT_FOUND);
 
         ContentRatioProductBarContainer contentRatio = findContentRatioByProductIdAndBarContainerId(dto.getProductId(), dto.getBarContainerId());
         if (contentRatio != null)
@@ -56,8 +52,6 @@ public class ContentRatioServiceImpl implements ContentRatioService{
     @Override
     public ContentRatioProductBarContainer updateMaxQuantityContentRatio(Long productId, Long barContainerId, int maxQuantity) {
         ContentRatioProductBarContainer contentRatio = findContentRatioByProductIdAndBarContainerId(productId, barContainerId);
-        if (contentRatio == null)
-            throw new ContentRatioRelationNotFoundException(ResponseMessageConstants.CONTENT_RATIO_NOT_FOUND);
 
         contentRatio.setMaxQuantity(maxQuantity);
 
@@ -67,8 +61,6 @@ public class ContentRatioServiceImpl implements ContentRatioService{
     @Override
     public ContentRatioProductBarContainer updateActualQuantityContentRatio(Long productId, Long barContainerId, int actualQuantity) {
         ContentRatioProductBarContainer contentRatio = findContentRatioByProductIdAndBarContainerId(productId, barContainerId);
-        if (contentRatio == null)
-            throw new ContentRatioRelationNotFoundException(ResponseMessageConstants.CONTENT_RATIO_NOT_FOUND);
 
         contentRatio.setActualQuantity(actualQuantity);
 
@@ -78,8 +70,6 @@ public class ContentRatioServiceImpl implements ContentRatioService{
     @Override
     public ContentRatioProductBarContainer updateThresholdContentRatio(Long productId, Long barContainerId, int threshold) {
         ContentRatioProductBarContainer contentRatio = findContentRatioByProductIdAndBarContainerId(productId, barContainerId);
-        if (contentRatio == null)
-            throw new ContentRatioRelationNotFoundException(ResponseMessageConstants.CONTENT_RATIO_NOT_FOUND);
 
         contentRatio.setThreshold(threshold);
 
@@ -88,9 +78,9 @@ public class ContentRatioServiceImpl implements ContentRatioService{
 
     @Override
     public String deleteRelationContentRatio(Long productId, Long barContainerId) {
-        ContentRatioProductBarContainer contentRatio = findContentRatioByProductIdAndBarContainerId(productId, barContainerId);
-        if (contentRatio == null)
-            throw new ContentRatioRelationNotFoundException(ResponseMessageConstants.CONTENT_RATIO_NOT_FOUND);
+        Product product = findProductById(productId);
+
+        BarContainer barContainer = findBarContainerById(barContainerId);
 
         deleteContentRatioByProductIdAndBarContainerId(productId, barContainerId);
 
@@ -98,11 +88,19 @@ public class ContentRatioServiceImpl implements ContentRatioService{
     }
 
     public Product findProductById(Long productId) {
-        return productRepository.findById(productId).orElse(null);
+        Product product =  productRepository.findById(productId).orElse(null);
+        if(product == null)
+            throw new ProductNotFoundException(ResponseMessageConstants.PRODUCT_NOT_FOUND);
+
+        return product;
     }
 
     public BarContainer findBarContainerById(Long barContainerId) {
-        return barContainerRepository.findById(barContainerId).orElse(null);
+        BarContainer barContainer = barContainerRepository.findById(barContainerId).orElse(null);
+        if(barContainer == null)
+            throw new BarContainerNotFoundException(ResponseMessageConstants.BAR_CONTAINER_NOT_FOUND);
+
+        return barContainer;
     }
 
     public ContentRatioProductBarContainer saveContentRatio(ContentRatioProductBarContainer contentRatio) {
@@ -110,7 +108,11 @@ public class ContentRatioServiceImpl implements ContentRatioService{
     }
 
     public ContentRatioProductBarContainer findContentRatioByProductIdAndBarContainerId(Long productId, Long barContainerId) {
-        return contentRatioRepository.findByProductIdAndBarContainerId(productId, barContainerId);
+        ContentRatioProductBarContainer contentRatio = contentRatioRepository.findByProductIdAndBarContainerId(productId, barContainerId);
+        if (contentRatio == null)
+            throw new ContentRatioRelationNotFoundException(ResponseMessageConstants.CONTENT_RATIO_NOT_FOUND);
+
+        return contentRatio;
     }
 
     public void deleteContentRatioByProductIdAndBarContainerId(Long productId, Long barContainerId){

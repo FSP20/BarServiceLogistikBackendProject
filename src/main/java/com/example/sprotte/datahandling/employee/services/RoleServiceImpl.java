@@ -76,12 +76,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public String deleteRoleById(Long roleId) {
         Role role = findById(roleId);
-        if(role == null) {
+        if(role == null)
             throw new RoleNotFoundException(ResponseMessageConstants.ROLE_NOT_FOUND);
-        } else {
-            roleRepository.deleteById(roleId);
-            return ResponseMessageConstants.ROLE_SUCCESSFULLY_DELETE;
-        }
+
+        roleRepository.deleteById(roleId);
+        return ResponseMessageConstants.ROLE_SUCCESSFULLY_DELETE;
     }
 
     public Role findById(Long roleId){

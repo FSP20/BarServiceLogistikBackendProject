@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ContentRatioRepository extends JpaRepository<ContentRatioProductBarContainer, Long> {
+public interface ContentRatioProductBarContainerRepository extends JpaRepository<ContentRatioProductBarContainer, Long> {
 
     ContentRatioProductBarContainer findByProductIdAndBarContainerId(Long productId, Long barContainerId);
 
