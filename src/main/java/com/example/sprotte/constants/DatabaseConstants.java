@@ -15,11 +15,13 @@ public class DatabaseConstants {
     public static final String BAR_CONTAINER_TABLE = "bar_container";
     public static final String PRODUCT_TABLE = "product";
     public static final String PRODUCT_TYPE_TABLE = "product_type";
+    public static final String STORAGE_TABLE = "storage";
 
     // Join Table
     public static final String EMPLOYEE_HAS_ROLE = "employee_has_role";
     public static final String EMPLOYEE_HAS_WORK_SHIFT = "employee_has_work_shift";
     public static final String PRODUCT_BAR_CONTAINER_CONTENT_RATIO = "product_barcontainer_contentratio";
+    public static final String PRODUCT_STORAGE_CONTENT_RATIO = "storage_has_product";
 
     // Attribute Name
     // Access Data
@@ -88,8 +90,17 @@ public class DatabaseConstants {
     public static final String PRODUCT_TYPE_DRINK = "drink";
     public static final String PRODUCT_TYPE_EQUIPMENT = "equipment";
 
-    // ContentRatio
-    public static final String CONTENT_RATIO_MAX_QUANTITY = "max_quantity";
-    public static final String CONTENT_RATIO_ACTUAL_QUANTITY = "actual_quantity";
-    public static final String CONTENT_RATIO_THRESHOLD = "threshold";
+    // Product BarContainer ContentRatio
+    public static final String PRODUCT_BAR_CONTAINER_CONTENT_RATIO_MAX_QUANTITY = "max_quantity";
+    public static final String PRODUCT_BAR_CONTAINER_CONTENT_RATIO_ACTUAL_QUANTITY = "actual_quantity";
+    public static final String PRODUCT_BAR_CONTAINER_CONTENT_RATIO_THRESHOLD = "threshold";
+
+    // Storage
+    public static final String ID_STORAGE = "id_storage";
+    public static final String STORAGE_DESCRIPTION = "description";
+
+    // Product Storage ContentRatio
+    public static final String PRODUCT_STORAGE_CONTENT_RATIO_MAX_QUANTITY = "max_quantity";
+    public static final String PRODUCT_STORAGE_CONTENT_RATIO_ACTUAL_QUANTITY = "actual_quantity";
+    public static final String PRODUCT_STORAGE_CONTENT_RATIO_THRESHOLD = "threshold";
 }

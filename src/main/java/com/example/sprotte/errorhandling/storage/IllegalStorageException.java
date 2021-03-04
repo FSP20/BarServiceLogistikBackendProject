@@ -1,0 +1,12 @@
+package com.example.sprotte.errorhandling.storage;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(HttpStatus.FORBIDDEN)
+public class IllegalStorageException extends RuntimeException {
+
+    private static final long serialVersionUID = 1L;
+
+    public IllegalStorageException(String message) {super(message, null, false, false);}
+}

@@ -1,7 +1,7 @@
 package com.example.sprotte.entity;
 
 import com.example.sprotte.constants.DatabaseConstants;
-import com.example.sprotte.entity.contentratio.ContentRatioProductBarContainer;
+import com.example.sprotte.entity.barcontainerContentratio.ContentRatioProductBarContainer;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 

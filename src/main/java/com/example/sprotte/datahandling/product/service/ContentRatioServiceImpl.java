@@ -7,7 +7,7 @@ import com.example.sprotte.datahandling.product.repository.ProductRepository;
 import com.example.sprotte.dto.product.SaveContentRatioProductBarContainerDto;
 import com.example.sprotte.entity.BarContainer;
 import com.example.sprotte.entity.Product;
-import com.example.sprotte.entity.contentratio.ContentRatioProductBarContainer;
+import com.example.sprotte.entity.barcontainerContentratio.ContentRatioProductBarContainer;
 import com.example.sprotte.errorhandling.Bar.BarContainerNotFoundException;
 import com.example.sprotte.errorhandling.product.ContentRatioRelationNotFoundException;
 import com.example.sprotte.errorhandling.product.IllegalContentRatioException;

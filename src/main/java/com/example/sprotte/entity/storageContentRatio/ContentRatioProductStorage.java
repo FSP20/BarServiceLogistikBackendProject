@@ -1,54 +1,54 @@
-package com.example.sprotte.entity.contentratio;
+package com.example.sprotte.entity.storageContentRatio;
 
 import com.example.sprotte.constants.DatabaseConstants;
-import com.example.sprotte.entity.BarContainer;
 import com.example.sprotte.entity.Product;
+import com.example.sprotte.entity.Storage;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = DatabaseConstants.PRODUCT_BAR_CONTAINER_CONTENT_RATIO)
-public class ContentRatioProductBarContainer {
+@Table(name = DatabaseConstants.PRODUCT_STORAGE_CONTENT_RATIO)
+public class ContentRatioProductStorage {
 
     @EmbeddedId
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private ContentRatioProductBarContainerId id = new ContentRatioProductBarContainerId();
+    private ContentRatioProductStorageId id = new ContentRatioProductStorageId();
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, cascade= {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
     @JoinColumn(name = DatabaseConstants.ID_PRODUCT, insertable = false, updatable = false)
     private Product product;
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, cascade= {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
-    @JoinColumn(name = DatabaseConstants.ID_BAR_CONTAINER, insertable = false, updatable = false)
-    private BarContainer barContainer;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
+    @JoinColumn(name = DatabaseConstants.ID_STORAGE, insertable = false, updatable = false)
+    private Storage storage;
 
-    @Column(name = DatabaseConstants.CONTENT_RATIO_MAX_QUANTITY)
+    @Column(name = DatabaseConstants.PRODUCT_STORAGE_CONTENT_RATIO_MAX_QUANTITY)
     private int maxQuantity;
 
-    @Column(name = DatabaseConstants.CONTENT_RATIO_ACTUAL_QUANTITY)
+    @Column(name = DatabaseConstants.PRODUCT_STORAGE_CONTENT_RATIO_ACTUAL_QUANTITY)
     private int actualQuantity;
 
-    @Column(name = DatabaseConstants.CONTENT_RATIO_THRESHOLD)
+    @Column(name = DatabaseConstants.PRODUCT_STORAGE_CONTENT_RATIO_THRESHOLD)
     private int threshold;
 
-    public ContentRatioProductBarContainer () {
+    public ContentRatioProductStorage () {
 
     }
 
-    public ContentRatioProductBarContainer(int maxQuantity, int actualQuantity, int threshold) {
+    public ContentRatioProductStorage(int maxQuantity, int actualQuantity, int threshold) {
         this.maxQuantity = maxQuantity;
         this.actualQuantity = actualQuantity;
         this.threshold = threshold;
     }
 
-    public ContentRatioProductBarContainerId getId() {
+    public ContentRatioProductStorageId getId() {
         return id;
     }
 
-    public void setId(ContentRatioProductBarContainerId id) {
+    public void setId(ContentRatioProductStorageId id) {
         this.id = id;
     }
 
@@ -60,12 +60,12 @@ public class ContentRatioProductBarContainer {
         this.product = product;
     }
 
-    public BarContainer getBarContainer() {
-        return barContainer;
+    public Storage getStorage() {
+        return storage;
     }
 
-    public void setBarContainer(BarContainer barContainer) {
-        this.barContainer = barContainer;
+    public void setStorage(Storage storage) {
+        this.storage = storage;
     }
 
     public int getMaxQuantity() {

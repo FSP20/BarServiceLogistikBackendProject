@@ -1,4 +1,4 @@
-package com.example.sprotte.entity.contentratio;
+package com.example.sprotte.entity.barcontainerContentratio;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
