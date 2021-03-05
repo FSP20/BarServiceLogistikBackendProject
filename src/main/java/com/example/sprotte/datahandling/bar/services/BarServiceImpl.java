@@ -40,31 +40,27 @@ public class BarServiceImpl implements BarService{
 
     @Override
     public Bar saveBar(SaveNewBarDto dto) {
-        if(dto.getName() != null) {
-            // Proof Bar Name already exist
-            Bar testBar = findByName(dto.getName());
-            if(testBar == null) {
-                return barRepository.save(mapNewBarDtoToEntityObject(dto));
-            } else {
-                throw new IllegalBarException(ResponseMessageConstants.BAR_ALREADY_EXIST);
-            }
-        } else {
+        if(dto.getName() == null)
             throw new RuntimeException(ResponseMessageConstants.BAR_DTO_IS_EMPTY);
-        }
+
+        // Proof Bar Name already exist
+        Bar testBar = barRepository.findByName(dto.getName());
+        if(testBar != null)
+            throw new IllegalBarException(ResponseMessageConstants.BAR_ALREADY_EXIST);
+
+        return barRepository.save(mapNewBarDtoToEntityObject(dto));
     }
 
     @Override
     public Bar findBarById(Long barId) {
         Bar bar = findById(barId);
-        if(bar == null)
-            throw new BarNotFoundException(ResponseMessageConstants.BAR_NOT_FOUND);
 
         return bar;
     }
 
     @Override
     public Bar findBarByName(String barName) {
-        Bar bar = findByName(barName);
+        Bar bar = barRepository.findByName(barName);
         if(bar == null)
             throw new BarNotFoundException(ResponseMessageConstants.BAR_NOT_FOUND);
 
@@ -73,39 +69,30 @@ public class BarServiceImpl implements BarService{
 
     @Override
     public Bar updateBarById(Long barId, String barName) {
-        if (barName != null) {
-            Bar bar = findById(barId);
-            if(bar == null)
-                throw new BarNotFoundException(ResponseMessageConstants.BAR_NOT_FOUND);
-
-            bar.setName(barName);
-
-            return barRepository.save(bar);
-        } else {
+        if (barName == null)
             throw new RuntimeException(ResponseMessageConstants.BAR_IS_EMPTY);
-        }
+
+        Bar bar = findById(barId);
+
+        bar.setName(barName);
+
+        return barRepository.save(bar);
     }
 
     @Override
     public String deleteBarById(Long barId) {
         Bar bar = findById(barId);
-        if(bar != null) {
-            barRepository.deleteById(barId);
-            return ResponseMessageConstants.BAR_SUCCESSFULLY_DELETE;
-        } else {
-            throw new BarNotFoundException(ResponseMessageConstants.BAR_NOT_FOUND);
-        }
+
+        barRepository.deleteById(barId);
+
+        return ResponseMessageConstants.BAR_SUCCESSFULLY_DELETE;
     }
 
     @Override
     public Bar addDeviceToBar(Long barId, Long deviceId) {
         Bar bar = findById(barId);
-        if (bar == null)
-            throw new BarNotFoundException(ResponseMessageConstants.BAR_NOT_FOUND);
 
         Device device = findDeviceById(deviceId);
-        if(device == null)
-            throw new DeviceNotFoundException(ResponseMessageConstants.DEVICE_NOT_FOUND);
 
         //Set Child in Parent
         if (!bar.getDevices().contains(device)) {
@@ -121,12 +108,8 @@ public class BarServiceImpl implements BarService{
     @Override
     public Bar removeDeviceFromBar(Long barId, Long deviceId) {
         Bar bar = findById(barId);
-        if (bar == null)
-            throw new BarNotFoundException(ResponseMessageConstants.BAR_NOT_FOUND);
 
         Device device = findDeviceById(deviceId);
-        if(device == null)
-            throw new DeviceNotFoundException(ResponseMessageConstants.DEVICE_NOT_FOUND);
 
         // Update Parent
         bar.getDevices().removeIf(tempDevice -> tempDevice.getId() == device.getId());
@@ -140,12 +123,8 @@ public class BarServiceImpl implements BarService{
     @Override
     public Bar switchBarSegmentToBar(Long barId, Long barSegmentId) {
         Bar bar = findById(barId);
-        if (bar == null)
-            throw new BarNotFoundException(ResponseMessageConstants.BAR_NOT_FOUND);
 
         BarSegment barSegment = findBarSegmentById(barSegmentId);
-        if (barSegment == null)
-            throw new BarSegmentNotFoundException(ResponseMessageConstants.BAR_SEGMENT_NOT_FOUND);
 
         // Set Child in Parent
         if (!bar.getBarSegments().contains(barSegment)) {
@@ -160,19 +139,27 @@ public class BarServiceImpl implements BarService{
 
 
     public Bar findById(Long barId) {
-        return barRepository.findById(barId).orElse(null);
-    }
+        Bar bar = barRepository.findById(barId).orElse(null);
+        if (bar == null)
+            throw new BarNotFoundException(ResponseMessageConstants.BAR_NOT_FOUND);
 
-    public Bar findByName(String barName) {
-        return barRepository.findByName(barName);
+        return bar;
     }
 
     public Device findDeviceById(Long deviceId) {
-        return deviceRepository.findById(deviceId).orElse(null);
+        Device device = deviceRepository.findById(deviceId).orElse(null);
+        if (device == null)
+            throw new DeviceNotFoundException(ResponseMessageConstants.DEVICE_NOT_FOUND);
+
+        return device;
     }
 
     public BarSegment findBarSegmentById(Long barSegmentId){
-        return barSegmentRepository.findById(barSegmentId).orElse(null);
+        BarSegment barSegment = barSegmentRepository.findById(barSegmentId).orElse(null);
+        if (barSegment == null)
+            throw new BarSegmentNotFoundException(ResponseMessageConstants.BAR_SEGMENT_NOT_FOUND);
+
+        return barSegment;
     }
 
     public Bar mapNewBarDtoToEntityObject(SaveNewBarDto dto) {
@@ -183,9 +170,6 @@ public class BarServiceImpl implements BarService{
         if(dto.getDeviceId().size() > 0) {
             for(Long deviceId : dto.getDeviceId()){
                 Device device = findDeviceById(deviceId);
-
-                if (device == null)
-                    throw new DeviceNotFoundException(ResponseMessageConstants.DEVICE_NOT_FOUND);
 
                 bar.getDevices().add(device);
 

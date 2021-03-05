@@ -42,31 +42,25 @@ public class BarContainerServiceImpl implements BarContainerService{
 
     @Override
     public BarContainer saveBarContainer(SaveNewBarContainerDto dto) {
-        if (dto.getBarContainerDescription() != null) {
-            // Proof Bar Container Description already exist
-            BarContainer barContainer = findByDescription(dto.getBarContainerDescription());
-            if (barContainer == null) {
-                return barContainerRepository.save(mapNewBarContainerDtoToBarContainer(dto));
-            } else {
-                throw new IllegalBarContainerException(ResponseMessageConstants.BAR_CONTAINER_ALREADY_EXIST);
-            }
-        } else {
+        if (dto.getBarContainerDescription() == null)
             throw new RuntimeException(ResponseMessageConstants.BAR_CONTAINER_IS_EMPTY);
-        }
+
+        // Proof Bar Container Description already exist
+        findByDescription(dto.getBarContainerDescription());
+
+        return barContainerRepository.save(mapNewBarContainerDtoToBarContainer(dto));
     }
 
     @Override
     public BarContainer findBarContainerById(Long barContainerId) {
         BarContainer barContainer = findById(barContainerId);
-        if (barContainer == null)
-            throw new BarContainerNotFoundException(ResponseMessageConstants.BAR_CONTAINER_NOT_FOUND);
 
         return barContainer;
     }
 
     @Override
     public BarContainer findBarContainerByDescription(String barContainerDescription) {
-        BarContainer barContainer = findByDescription(barContainerDescription);
+        BarContainer barContainer = barContainerRepository.findByDescription(barContainerDescription);
         if (barContainer == null)
             throw new BarContainerNotFoundException(ResponseMessageConstants.BAR_CONTAINER_NOT_FOUND);
 
@@ -75,18 +69,16 @@ public class BarContainerServiceImpl implements BarContainerService{
 
     @Override
     public BarContainer updateBarContainer(UpdateBarContainerDto dto) {
-        if(dto.getBarContainerDescription() != null) {
-            return barContainerRepository.save(mapUpdateBarContainerDtoToBarContainer(dto));
-        } else {
+        if(dto.getBarContainerDescription() == null)
             throw new RuntimeException(ResponseMessageConstants.BAR_CONTAINER_IS_EMPTY);
-        }
+
+        return barContainerRepository.save(mapUpdateBarContainerDtoToBarContainer(dto));
     }
 
     @Override
     public BarContainer updateBarContainerDescription(Long barContainerId, String description) {
         BarContainer barContainer = findById(barContainerId);
-        if (barContainer == null)
-            throw new BarContainerNotFoundException(ResponseMessageConstants.BAR_CONTAINER_NOT_FOUND);
+
         barContainer.setDescription(description);
 
         return barContainerRepository.save(barContainer);
@@ -95,22 +87,17 @@ public class BarContainerServiceImpl implements BarContainerService{
     @Override
     public String deleteBarContainerById(Long barContainerId) {
         BarContainer barContainer = findById(barContainerId);
-        if (barContainer == null)
-            throw new BarContainerNotFoundException(ResponseMessageConstants.BAR_CONTAINER_NOT_FOUND);
 
         barContainerRepository.deleteById(barContainerId);
+
         return ResponseMessageConstants.BAR_CONTAINER_SUCCESSFULLY_DELETE;
     }
 
     @Override
     public BarContainer switchBarSegmentFromBarContainer(Long barContainerId, Long barSegmentId) {
         BarSegment barSegment = findBarSegmentById(barSegmentId);
-        if(barSegment == null)
-            throw new BarSegmentNotFoundException(ResponseMessageConstants.BAR_SEGMENT_NOT_FOUND);
 
         BarContainer barContainer = findById(barContainerId);
-        if (barContainer == null)
-            throw new BarContainerNotFoundException(ResponseMessageConstants.BAR_CONTAINER_NOT_FOUND);
 
         // Set Parent in Child
         barContainer.setBarSegment(barSegment);
@@ -126,12 +113,8 @@ public class BarContainerServiceImpl implements BarContainerService{
     @Override
     public BarContainer switchContainerCategoryFromBarContainer(Long barContainerId, Long containerCategoryId) {
         ContainerCategory containerCategory  = findContainerCategoryById(containerCategoryId);
-        if(containerCategory == null)
-            throw new ContainerCategoryNotFoundException(ResponseMessageConstants.CONTAINER_CATEGORY_NOT_FOUND);
 
         BarContainer barContainer = findById(barContainerId);
-        if (barContainer == null)
-            throw new BarContainerNotFoundException(ResponseMessageConstants.BAR_CONTAINER_NOT_FOUND);
 
         // Set Parent in Child (Uni-directional)  
         barContainer.setContainerCategory(containerCategory);
@@ -139,20 +122,34 @@ public class BarContainerServiceImpl implements BarContainerService{
         return barContainerRepository.save(barContainer);
     }
 
-    public BarContainer findByDescription(String barContainerDescription) {
-        return barContainerRepository.findByDescription(barContainerDescription);
+    public void findByDescription(String barContainerDescription) {
+        BarContainer barContainer = barContainerRepository.findByDescription(barContainerDescription);
+        if (barContainer != null)
+            throw new IllegalBarContainerException(ResponseMessageConstants.BAR_CONTAINER_ALREADY_EXIST);
     }
 
     public BarContainer findById(Long barContainerId) {
-        return barContainerRepository.findById(barContainerId).orElse(null);
+        BarContainer barContainer = barContainerRepository.findById(barContainerId).orElse(null);
+        if (barContainer == null)
+            throw new BarContainerNotFoundException(ResponseMessageConstants.BAR_CONTAINER_NOT_FOUND);
+
+        return barContainer;
     }
 
     public BarSegment findBarSegmentById(Long barSegmentId) {
-        return barSegmentRepository.findById(barSegmentId).orElse(null);
+        BarSegment barSegment = barSegmentRepository.findById(barSegmentId).orElse(null);
+        if(barSegment == null)
+            throw new BarSegmentNotFoundException(ResponseMessageConstants.BAR_SEGMENT_NOT_FOUND);
+
+        return barSegment;
     }
 
     public ContainerCategory findContainerCategoryById(Long containerCategoryId) {
-        return containerCategoryRepository.findById(containerCategoryId).orElse(null);
+        ContainerCategory containerCategory = containerCategoryRepository.findById(containerCategoryId).orElse(null);
+        if (containerCategory == null)
+            throw new ContainerCategoryNotFoundException(ResponseMessageConstants.CONTAINER_CATEGORY_NOT_FOUND);
+
+        return containerCategory;
     }
 
 
@@ -161,30 +158,25 @@ public class BarContainerServiceImpl implements BarContainerService{
 
         barContainer.setDescription(dto.getBarContainerDescription());
 
-        if(dto.getBarSegmentId() != 0) {
-            BarSegment barSegment = findBarSegmentById(dto.getBarSegmentId());
-            if(barSegment == null)
-                throw new BarSegmentNotFoundException(ResponseMessageConstants.BAR_SEGMENT_NOT_FOUND);
-
-            // Set Parent in Child
-            barContainer.setBarSegment(barSegment);
-
-            // Set Child in Parent
-            barSegment.getBarContainers().add(barContainer);
-        } else {
+        if(dto.getBarSegmentId() == 0)
             throw new IllegalBarContainerException(ResponseMessageConstants.BAR_CONTAINER_MUST_ASSIGNED_TO_BAR_SEGMENT);
-        }
 
-        if(dto.getContainerCategoryId() != 0) {
-            ContainerCategory containerCategory = findContainerCategoryById(dto.getContainerCategoryId());
-            if (containerCategory == null)
-                throw new ContainerCategoryNotFoundException(ResponseMessageConstants.CONTAINER_CATEGORY_NOT_FOUND);
+        BarSegment barSegment = findBarSegmentById(dto.getBarSegmentId());
 
-            // Set Parent in Child (Uni-Directional)
-            barContainer.setContainerCategory(containerCategory);
-        } else {
+        // Set Parent in Child
+        barContainer.setBarSegment(barSegment);
+
+        // Set Child in Parent
+        barSegment.getBarContainers().add(barContainer);
+
+
+        if(dto.getContainerCategoryId() == 0)
             throw new IllegalBarContainerException(ResponseMessageConstants.BAR_CONTAINER_MUST_ASSIGNED_TO_CONTAINER_CATEGORY);
-        }
+
+        ContainerCategory containerCategory = findContainerCategoryById(dto.getContainerCategoryId());
+
+        // Set Parent in Child (Uni-Directional)
+        barContainer.setContainerCategory(containerCategory);
 
         return barContainer;
     }
@@ -192,15 +184,11 @@ public class BarContainerServiceImpl implements BarContainerService{
 
     public BarContainer mapUpdateBarContainerDtoToBarContainer(UpdateBarContainerDto dto) {
         BarContainer barContainer = findById(dto.getBarContainerId());
-        if (barContainer == null)
-            throw new BarContainerNotFoundException(ResponseMessageConstants.BAR_CONTAINER_NOT_FOUND);
 
         barContainer.setDescription(dto.getBarContainerDescription());
 
         if (dto.getBarSegmentId() != 0) {
             BarSegment barSegment = findBarSegmentById(dto.getBarSegmentId());
-            if (barSegment == null)
-                throw new BarSegmentNotFoundException(ResponseMessageConstants.BAR_SEGMENT_NOT_FOUND);
 
             // Set Parent in Child
             barContainer.setBarSegment(barSegment);
@@ -208,8 +196,6 @@ public class BarContainerServiceImpl implements BarContainerService{
 
         if (dto.getContainerCategoryId() != 0) {
             ContainerCategory containerCategory = findContainerCategoryById(dto.getContainerCategoryId());
-            if (containerCategory == null)
-                throw new ContainerCategoryNotFoundException(ResponseMessageConstants.CONTAINER_CATEGORY_NOT_FOUND);
 
             // Set Parent in Child
             barContainer.setContainerCategory(containerCategory);

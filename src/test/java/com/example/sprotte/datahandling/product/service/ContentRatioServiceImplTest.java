@@ -1,8 +1,8 @@
 package com.example.sprotte.datahandling.product.service;
 
 import com.example.sprotte.constants.ResponseMessageConstants;
-import com.example.sprotte.datahandling.product.repository.ContentRatioRepository;
-import com.example.sprotte.entity.contentratio.ContentRatioProductBarContainer;
+import com.example.sprotte.datahandling.product.repository.ContentRatioProductBarContainerRepository;
+import com.example.sprotte.entity.barcontainerContentratio.ContentRatioProductBarContainer;
 import com.example.sprotte.errorhandling.product.ContentRatioRelationNotFoundException;
 import com.example.sprotte.errorhandling.product.IllegalContentRatioException;
 import org.junit.jupiter.api.Test;
@@ -22,10 +22,10 @@ import static org.mockito.Mockito.doThrow;
 class ContentRatioServiceImplTest {
 
     @Mock
-    ContentRatioRepository contentRatioRepository;
+    ContentRatioProductBarContainerRepository contentRatioRepository;
 
     @InjectMocks
-    ContentRatioServiceImpl service;
+    ContentRatioProductBarContainerServiceImpl service;
 
     @Test
     void saveContentRatio() {

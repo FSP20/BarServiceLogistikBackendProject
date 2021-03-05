@@ -37,17 +37,13 @@ public class EmployeeRegistrationServiceImpl implements EmployeeRegistrationServ
 	@Override
 	public Employee saveNewEmployee(EmployeeRegistrationDto employeeRegistrationDto) {
 		
-		if(!usernameAlreadyExist(employeeRegistrationDto.getUsername())){
-			
-			Employee employee = mapDtoToEntityObject(employeeRegistrationDto);
-			
-			// Save Parent (which will save the Child as well)
-			save(employee);
-			
-			return employee;
-		} else {
+		if(usernameAlreadyExist(employeeRegistrationDto.getUsername()))
 			throw new UsernameAlreadyExistException(ResponseMessageConstants.USER_ALREADY_EXIST);
-		}
+			
+		Employee employee = mapDtoToEntityObject(employeeRegistrationDto);
+
+		// Save Parent (which will save the Child as well)
+		return save(employee);
 	}
 
 	
@@ -89,34 +85,32 @@ public class EmployeeRegistrationServiceImpl implements EmployeeRegistrationServ
 		for (Long roleId : dto.getRoleIds()) {
 			Role role = findRoleById(roleId);
 			
-			if(role != null) {
-				// Set Child in Parent
-				employee.getRoles().add(role);
-
-				//Set Parent in Child Entity
-				role.getEmployees().add(employee);
-			} else {
+			if(role == null)
 				throw new RoleNotFoundException(ResponseMessageConstants.ROLE_NOT_FOUND);
-			}
+
+			// Set Child in Parent
+			employee.getRoles().add(role);
+
+			//Set Parent in Child Entity
+			role.getEmployees().add(employee);
 		}
 		
 		// Device
 		Device device = findDeviceById(dto.getDeviceId());
 		
-		if(device != null) {
-			// Check Employee is active on other device
-			helperClass.setEmployeeInactiveOnOtherDevice(employee.getId());
-			// Device get Status "Active" because when Employee is registrated, the Employee is loged in and active
-			device.setActive(true);
-
-			//Set Child in Parent
-			employee.getDevices().add(device);
-
-			//Set Parent in Child Entity
-			device.setEmployee(employee);
-		} else {
+		if(device != null)
 			throw new DeviceNotFoundException(ResponseMessageConstants.DEVICE_NOT_FOUND);
-		}
+
+		// Check Employee is active on other device
+		helperClass.setEmployeeInactiveOnOtherDevice(employee.getId());
+		// Device get Status "Active" because when Employee is registrated, the Employee is loged in and active
+		device.setActive(true);
+
+		//Set Child in Parent
+		employee.getDevices().add(device);
+
+		//Set Parent in Child Entity
+		device.setEmployee(employee);
 
 		return employee;
 	}

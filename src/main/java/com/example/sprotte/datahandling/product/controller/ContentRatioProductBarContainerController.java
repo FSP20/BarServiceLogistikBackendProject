@@ -1,17 +1,17 @@
 package com.example.sprotte.datahandling.product.controller;
 
-import com.example.sprotte.datahandling.product.service.ContentRatioService;
+import com.example.sprotte.datahandling.product.service.ContentRatioProductBarContainerService;
 import com.example.sprotte.dto.product.SaveContentRatioProductBarContainerDto;
-import com.example.sprotte.entity.contentratio.ContentRatioProductBarContainer;
+import com.example.sprotte.entity.barcontainerContentratio.ContentRatioProductBarContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/contentRatio")
-public class ContentRatioController {
+@RequestMapping("/contentRatioBarContainer")
+public class ContentRatioProductBarContainerController {
 
     @Autowired
-    ContentRatioService contentRatioService;
+    ContentRatioProductBarContainerService contentRatioService;
 
     @PostMapping("/setContentRatioProductBarContainer")
     ContentRatioProductBarContainer setContentRatioProductBarContainer(@RequestBody SaveContentRatioProductBarContainerDto dto) {

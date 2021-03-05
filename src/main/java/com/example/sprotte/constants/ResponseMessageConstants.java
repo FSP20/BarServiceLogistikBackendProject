@@ -83,7 +83,13 @@ public class ResponseMessageConstants {
 	public static final String PRODUCT_TYPE_NOT_FOUND = "Product Type not found";
 	public static final String PRODUCT_TYPE_MISSING = "Product Type is missing";
 
-    // Content Ratio Product & Bar Container
+    // Content Ratio (Product & Storage) | (Product & Bar Container)
 	public static final String CONTENT_RATIO_SUCCESSFULLY_DELETE = "The Relation successfully deleted";
 	public static final String CONTENT_RATIO_ALREADY_EXIST = "The Relation is already existing";
+
+	// Storage
+	public static final String STORAGE_NOT_FOUND = "Storage not found";
+	public static final String STORAGE_ALREADY_EXIST = "Storage with this description already exist";
+	public static final String STORAGE_SUCCESSFULLY_DELETE = "Storage successfully deleted";
+	public static final String STORAGE_IS_EMPTY = "Storage Object is empty";
 }

@@ -1,7 +1,8 @@
 package com.example.sprotte.entity;
 
 import com.example.sprotte.constants.DatabaseConstants;
-import com.example.sprotte.entity.contentratio.ContentRatioProductBarContainer;
+import com.example.sprotte.entity.barcontainerContentratio.ContentRatioProductBarContainer;
+import com.example.sprotte.entity.storageContentRatio.ContentRatioProductStorage;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -29,6 +30,10 @@ public class Product {
     @JsonManagedReference
     @OneToMany(mappedBy = "product")
     private List<ContentRatioProductBarContainer> ratioProductBarContainers = new ArrayList<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "product")
+    private List<ContentRatioProductStorage> ratioProductStorages = new ArrayList<>();
 
     //Uni-Directional
     @ManyToOne(cascade= {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})

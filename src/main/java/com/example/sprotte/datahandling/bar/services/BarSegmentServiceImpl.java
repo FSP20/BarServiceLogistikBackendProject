@@ -41,24 +41,20 @@ public class BarSegmentServiceImpl implements BarSegmentService {
 
     @Override
     public BarSegment saveBarSegment(SaveNewBarSegmentDto dto) {
-        if(dto.getBarSegmentDescription() != null) {
-            // Proof Bar Segment Description already exist
-            BarSegment barSegment = findByDescription(dto.getBarSegmentDescription());
-            if(barSegment == null) {
-                return barSegmentRepository.save(mapNewBarSegmentDtoToBarSegment(dto));
-            } else {
-                throw new IllegalBarSegmentException(ResponseMessageConstants.BAR_SEGMENT_ALREADY_EXIST);
-            }
-        } else {
+        if(dto.getBarSegmentDescription() == null)
             throw new RuntimeException(ResponseMessageConstants.BAR_SEGMENT_IS_EMPTY);
-        }
+
+        // Proof Bar Segment Description already exist
+        BarSegment barSegment = findByDescription(dto.getBarSegmentDescription());
+        if(barSegment != null)
+            throw new IllegalBarSegmentException(ResponseMessageConstants.BAR_SEGMENT_ALREADY_EXIST);
+
+        return barSegmentRepository.save(mapNewBarSegmentDtoToBarSegment(dto));
     }
 
     @Override
     public BarSegment findBarSegmentById(Long barSegmentId) {
         BarSegment barSegment = findById(barSegmentId);
-        if(barSegment == null)
-            throw new BarSegmentNotFoundException(ResponseMessageConstants.BAR_SEGMENT_NOT_FOUND);
 
         return barSegment;
     }
@@ -74,47 +70,38 @@ public class BarSegmentServiceImpl implements BarSegmentService {
 
     @Override
     public BarSegment updateBarSegment(UpdateBarSegmentDto dto) {
-        if(dto.getBarSegmentDescription() != null) {
-            return barSegmentRepository.save(mapUpdateBarSegmentDtoToBarSegment(dto));
-        } else {
+        if(dto.getBarSegmentDescription() == null)
             throw new RuntimeException(ResponseMessageConstants.BAR_SEGMENT_IS_EMPTY);
-        }
+
+        return barSegmentRepository.save(mapUpdateBarSegmentDtoToBarSegment(dto));
     }
 
     @Override
     public BarSegment updateBarSegmentDescription(Long barSegmentId, String description) {
         BarSegment barSegment = findById(barSegmentId);
-        if(barSegment == null)
-            throw new BarSegmentNotFoundException(ResponseMessageConstants.BAR_SEGMENT_NOT_FOUND);
 
-        if(description != null) {
-            barSegment.setDescription(description);
-            return barSegmentRepository.save(barSegment);
-        } else {
+        if(description == null)
             throw new BarSegmentNotFoundException(ResponseMessageConstants.BAR_SEGMENT_IS_EMPTY);
-        }
+
+        barSegment.setDescription(description);
+
+        return barSegmentRepository.save(barSegment);
     }
 
     @Override
     public String deleteBarSegmentById(Long barSegmentId) {
         BarSegment barSegment = findById(barSegmentId);
-        if(barSegment != null) {
-            barSegmentRepository.deleteById(barSegmentId);
-            return ResponseMessageConstants.BAR_SEGMENT_SUCCESSFULLY_DELETE;
-        } else {
-            throw new BarSegmentNotFoundException(ResponseMessageConstants.BAR_SEGMENT_NOT_FOUND);
-        }
+
+        barSegmentRepository.deleteById(barSegmentId);
+
+        return ResponseMessageConstants.BAR_SEGMENT_SUCCESSFULLY_DELETE;
     }
 
     @Override
     public BarSegment switchBarFromBarSegment(Long barSegmentId, Long barId) {
         Bar bar = findBarById(barId);
-        if (bar == null)
-            throw new BarNotFoundException(ResponseMessageConstants.BAR_NOT_FOUND);
 
         BarSegment barSegment = findById(barSegmentId);
-        if(barSegment == null)
-            throw new BarSegmentNotFoundException(ResponseMessageConstants.BAR_SEGMENT_NOT_FOUND);
 
         // Set Parent in Child
         barSegment.setBar(bar);
@@ -130,12 +117,8 @@ public class BarSegmentServiceImpl implements BarSegmentService {
     @Override
     public BarSegment switchBarContainerToBarSegment(Long barSegmentId, Long barContainerId) {
         BarSegment barSegment = findById(barSegmentId);
-        if (barSegment == null)
-            throw new BarSegmentNotFoundException(ResponseMessageConstants.BAR_SEGMENT_NOT_FOUND);
 
         BarContainer barContainer = findBarContainerById(barContainerId);
-        if (barContainer == null)
-            throw new BarContainerNotFoundException(ResponseMessageConstants.BAR_CONTAINER_NOT_FOUND);
 
         // Set Child in Parent
         if (!barSegment.getBarContainers().contains(barContainer)) {
@@ -153,15 +136,27 @@ public class BarSegmentServiceImpl implements BarSegmentService {
     }
 
     public BarSegment findById(Long barSegmentId) {
-        return barSegmentRepository.findById(barSegmentId).orElse(null);
+        BarSegment barSegment = barSegmentRepository.findById(barSegmentId).orElse(null);
+        if(barSegment == null)
+            throw new BarSegmentNotFoundException(ResponseMessageConstants.BAR_SEGMENT_NOT_FOUND);
+
+        return barSegment;
     }
 
     public Bar findBarById(Long barId) {
-        return barRepository.findById(barId).orElse(null);
+        Bar bar = barRepository.findById(barId).orElse(null);
+        if(bar == null)
+            throw new BarNotFoundException(ResponseMessageConstants.BAR_NOT_FOUND);
+
+        return bar;
     }
 
     public BarContainer findBarContainerById(Long barContainerId) {
-        return barContainerRepository.findById(barContainerId).orElse(null);
+        BarContainer barContainer = barContainerRepository.findById(barContainerId).orElse(null);
+        if (barContainer == null)
+            throw new BarContainerNotFoundException(ResponseMessageConstants.BAR_CONTAINER_NOT_FOUND);
+
+        return barContainer;
     }
 
     public BarSegment mapNewBarSegmentDtoToBarSegment(SaveNewBarSegmentDto dto) {
@@ -170,35 +165,28 @@ public class BarSegmentServiceImpl implements BarSegmentService {
         barSegment.setDescription(dto.getBarSegmentDescription());
         barSegment.setCategory(dto.getBarSegmentCategory());
 
-        if(dto.getBarId() != 0) {
-            Bar bar = findBarById(dto.getBarId());
-            if(bar == null)
-                throw new BarNotFoundException(ResponseMessageConstants.BAR_NOT_FOUND);
-
-            // Set Parent in Child
-            barSegment.setBar(bar);
-
-            // Set Child in Parent
-            bar.getBarSegments().add(barSegment);
-        } else {
+        if(dto.getBarId() == 0)
             throw new IllegalBarSegmentException(ResponseMessageConstants.BAR_SEGMENT_MUST_ASSIGNED_TO_BAR);
-        }
+
+        Bar bar = findBarById(dto.getBarId());
+
+        // Set Parent in Child
+        barSegment.setBar(bar);
+
+        // Set Child in Parent
+        bar.getBarSegments().add(barSegment);
 
         return barSegment;
     }
 
     public BarSegment mapUpdateBarSegmentDtoToBarSegment(UpdateBarSegmentDto dto) {
         BarSegment barSegment = findById(dto.getBarSegmentId());
-        if(barSegment == null)
-            throw new BarSegmentNotFoundException(ResponseMessageConstants.BAR_SEGMENT_NOT_FOUND);
 
         barSegment.setDescription(dto.getBarSegmentDescription());
         barSegment.setCategory(dto.getBarSegmentCategory());
 
         if(dto.getBarId() != 0) {
             Bar bar = findBarById(dto.getBarId());
-            if(bar == null)
-                throw new BarNotFoundException(ResponseMessageConstants.BAR_NOT_FOUND);
 
             // Set Parent in Child
             barSegment.setBar(bar);
