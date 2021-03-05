@@ -78,9 +78,11 @@ public class ContentRatioProductStorageServiceImpl implements ContentRatioProduc
 
     @Override
     public String deleteRelationContentRatioProductStorage(Long productId, Long storageId) {
-        Product product = findProductById(productId);
+        // Only Proof that Product exist
+        findProductById(productId);
 
-        Storage storage = findStorageById(storageId);
+        // Only Proof that Storage exist
+        findStorageById(storageId);
 
         deleteContentRatioByProductIdAndStorageId(productId, storageId);
 

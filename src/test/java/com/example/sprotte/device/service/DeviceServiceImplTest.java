@@ -10,7 +10,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -24,17 +23,17 @@ class DeviceServiceImplTest {
     @InjectMocks
     DeviceServiceImpl service;
 
-    @Test
-    void findByDeviceNumber() {
-        int deviceNumber = 1234;
-        Device device = new Device();
-        given(deviceRepository.findByDeviceNumber(deviceNumber)).willReturn(device);
-
-        Device foundDevice = service.findByDeviceNumber(deviceNumber);
-
-        assertThat(foundDevice).isNotNull();
-        then(deviceRepository).should().findByDeviceNumber(anyInt());
-    }
+//    @Test
+//    void findByDeviceNumber() {
+//        int deviceNumber = 1234;
+//        Device device = new Device();
+//        given(deviceRepository.findByDeviceNumber(deviceNumber)).willReturn(device);
+//
+//        Device foundDevice = service.findByDeviceNumber(deviceNumber);
+//
+//        assertThat(foundDevice).isNotNull();
+//        then(deviceRepository).should().findByDeviceNumber(anyInt());
+//    }
 
     @Test
     void findDeviceByDescription() {

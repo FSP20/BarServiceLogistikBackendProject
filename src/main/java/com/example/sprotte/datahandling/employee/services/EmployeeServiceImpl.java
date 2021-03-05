@@ -52,6 +52,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public String deleteEmployeeById(Long employeeId) {
 		employeeRepository.deleteById(employeeId);
+
 		return ResponseMessageConstants.EMPLOYEE_SUCCESSFULLY_DELETED;
 	}
 
@@ -63,13 +64,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public Employee getEmployeeByUsername(String username) {
 		Profile profile = findProfileByUsername(username);
-		if (profile == null)
-			throw new ProfileNotFoundException(ResponseMessageConstants.PROFILE_NOT_FOUND);
 
 		Employee employee = findByProfileId(profile.getId());
-		if (employee == null) {
-			throw new EmployeeNotFoundException(ResponseMessageConstants.EMPLOYEE_NOT_FOUND);
-		}
 
 		return employee;
 	}
@@ -87,23 +83,17 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public String changePasswordById(EmployeeChangePasswordDto dto) {
 		Employee employee = getEmployeeById(dto.getEmployeeId());
-		if(employee == null)
-			throw new EmployeeNotFoundException(ResponseMessageConstants.EMPLOYEES_NOT_FOUND);
 
 		Profile profile = getProfileById(employee.getProfile().getId());
-		if(profile == null)
-			throw new ProfileNotFoundException(ResponseMessageConstants.PROFILE_NOT_FOUND);
 
-		if(profile.getPassword() != null) {
-			if(!checkOldAndNewPassword(profile.getPassword(), dto.getNewPassword())) {
-				profile.setPassword(dto.getNewPassword());
-				saveProfile(profile);
-			} else {
-				throw new IllegalPasswordException(ResponseMessageConstants.ILLEGAL_PASSWORD_UPDATE);
-			}
-		} else {
+		if(profile.getPassword() == null)
 			throw new NullPointerException();
-		}
+
+		if(checkOldAndNewPassword(profile.getPassword(), dto.getNewPassword()))
+			throw new IllegalPasswordException(ResponseMessageConstants.ILLEGAL_PASSWORD_UPDATE);
+
+		profile.setPassword(dto.getNewPassword());
+		saveProfile(profile);
 
 		return ResponseMessageConstants.PASSWORD_SUCCESSFULLY_UPDATED;
 	}
@@ -111,40 +101,31 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public String changeUsernameById(Long employeeId, String newUsername) {
 		Employee employee = getEmployeeById(employeeId);
-		if (employee == null)
-			throw new EmployeeNotFoundException(ResponseMessageConstants.EMPLOYEE_NOT_FOUND);
 
 		Profile profile = getProfileById(employee.getProfile().getId());
-		if(profile == null)
-			throw new ProfileNotFoundException(ResponseMessageConstants.PROFILE_NOT_FOUND);
 
 		List<Profile> profileList = findAllProfiles();
-		if (profileList.size() == 0)
-			throw new ProfileNotFoundException(ResponseMessageConstants.PROFILES_NOT_FOUND);
 
-		if(profile.getUsername() != null) {
-			if(!checkNewUsernameAlreadyExist(profileList, profile.getUsername()) &&
-					!checkOldAndNewUsername(profile.getUsername(), newUsername)) {
-				profile.setUsername(newUsername);
-				saveProfile(profile);
-			} else {
-				throw new UsernameAlreadyExistException(ResponseMessageConstants.USER_ALREADY_EXIST);
-			}
-		} else {
+		if(profile.getUsername() != null)
 			throw new NullPointerException();
-		}
+
+		if(checkNewUsernameAlreadyExist(profileList, profile.getUsername()) &&
+				checkOldAndNewUsername(profile.getUsername(), newUsername))
+			throw new UsernameAlreadyExistException(ResponseMessageConstants.USER_ALREADY_EXIST);
+
+		profile.setUsername(newUsername);
+		saveProfile(profile);
 
 		return ResponseMessageConstants.USERNAME_SUCCESSFULLY_UPDATED;
 	}
 
 	@Override
 	public List<Employee> getEmployees() {
-		List<Employee> employees = findAllEmployees();
-		if (employees.size() > 0) {
-			return employees;
-		} else {
+		List<Employee> employees = employeeRepository.findAll();;
+		if (employees.size() == 0)
 			throw new EmployeeNotFoundException(ResponseMessageConstants.EMPLOYEES_NOT_FOUND);
-		}
+
+		return employees;
 	}
 
 	@Override
@@ -154,57 +135,47 @@ public class EmployeeServiceImpl implements EmployeeService{
 
 		// Set Employee active on Device
 		Device device = findDeviceById(deviceId);
-		if(device != null) {
-			device.setActive(true);
-			deviceRepository.save(device);
-		} else {
-			throw new DeviceNotFoundException(ResponseMessageConstants.DEVICE_NOT_FOUND);
-		}
+
+		device.setActive(true);
+		deviceRepository.save(device);
 	}
 
 	@Override
 	public void setEmployeeInactiveById(Long employeeId, Long deviceId) {
 		// Set Employe inactive on Device
 		Device device = deviceRepository.findByIdAndEmployeeId(deviceId,employeeId);
-		if(device != null) {
-			device.setActive(false);
-			deviceRepository.save(device);
-		} else {
+		if(device == null)
 			throw new DeviceNotFoundException(ResponseMessageConstants.EMPLOYEE_NOT_LOGGED_IN_ON_THAT_DEVICE);
-		}
+
+		device.setActive(false);
+		deviceRepository.save(device);
 	}
 
 	//Update Role from Employee
 	@Override
 	public Employee addRoleToEmployee(Long employeeId, String roleName) {
 		Employee employee = getEmployeeById(employeeId);
-		if(employee == null)
-			throw new EmployeeNotFoundException(ResponseMessageConstants.EMPLOYEE_NOT_FOUND);
 
 		Role role = roleRepository.findByDescription(roleName);
 		if(role == null)
 			throw new RoleNotFoundException(ResponseMessageConstants.ROLE_NOT_FOUND);
 
-
-		if(!employee.getRoles().contains(role)){
-			// Set Child in Parent
-			employee.getRoles().add(role);
-
-			//Set Parent in Child Entity
-			role.getEmployees().add(employee);
-
-			return employeeRepository.save(employee);
-		} else {
+		if(!employee.getRoles().contains(role))
 			throw new IllegalEmployeeRoleException(ResponseMessageConstants.EMPLOYEE_HAS_ALREADY_ROLE);
-		}
+
+		// Set Child in Parent
+		employee.getRoles().add(role);
+
+		//Set Parent in Child Entity
+		role.getEmployees().add(employee);
+
+		return employeeRepository.save(employee);
 	}
 
 	//Delete Role from Employee
 	@Override
 	public Employee deleteRoleFromEmployee(Long employeeId, String roleName) {
 		Employee employee = getEmployeeById(employeeId);
-		if(employee == null)
-			throw new EmployeeNotFoundException(ResponseMessageConstants.EMPLOYEE_NOT_FOUND);
 
 		Role role = roleRepository.findByDescription(roleName);
 		if(role == null)
@@ -223,8 +194,6 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public String updateMaxNumbersOfOrders(Long employeeId, int maxNumbersOfOrders) {
 		Employee employee = getEmployeeById(employeeId);
-		if(employee == null)
-			throw new EmployeeNotFoundException(ResponseMessageConstants.EMPLOYEE_NOT_FOUND);
 
 		employee.setMaxNumbersOfOrders(maxNumbersOfOrders);
 
@@ -233,16 +202,18 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return ResponseMessageConstants.UPDATE_MAX_NUMBERS_OF_ORDERS;
 	}
 
-	public List<Employee> findAllEmployees() {
-		return employeeRepository.findAll();
-	}
-
 	public List<Profile> findAllProfiles() {
-		return employeeProfileRepository.findAll();
+		List<Profile> profiles = employeeProfileRepository.findAll();
+		if (profiles.size() == 0)
+			throw new ProfileNotFoundException(ResponseMessageConstants.PROFILES_NOT_FOUND);
+
+		return profiles;
 	}
 
 	public Profile getProfileById(Long profileId) {
-		return employeeProfileRepository.findById(profileId).orElse(null);
+		Profile profile = employeeProfileRepository.findById(profileId).orElse(null);
+
+		return profile;
 	}
 
 	public Profile saveProfile(Profile profile) {
@@ -267,31 +238,39 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 
 	public Profile findProfileByUsername(String username) {
-		return employeeProfileRepository.findByUsername(username).orElse(null);
+		Profile profile = employeeProfileRepository.findByUsername(username).orElse(null);
+		if (profile == null)
+			throw new ProfileNotFoundException(ResponseMessageConstants.PROFILE_NOT_FOUND);
+
+		return profile;
 	}
 
 	public Employee findByProfileId(Long profileId) {
-		return employeeRepository.findByProfileId(profileId).orElse(null);
+		Employee employee = employeeRepository.findByProfileId(profileId).orElse(null);
+		if (employee == null)
+			throw new EmployeeNotFoundException(ResponseMessageConstants.EMPLOYEE_NOT_FOUND);
+
+		return employee;
 	}
 
 	public Device findDeviceById(Long deviceId) {
-		return deviceRepository.findById(deviceId).orElse(null);
+		Device device = deviceRepository.findById(deviceId).orElse(null);
+		if(device == null)
+			throw new DeviceNotFoundException(ResponseMessageConstants.DEVICE_NOT_FOUND);
+
+		return device;
 	}
 
 	public Employee mapUpdateEmployeeDto(UpdateEmployeeDto dto) {
-		if(dto.getEmployeeId() != null) {
-			Employee employee = getEmployeeById(dto.getEmployeeId());
-			if (employee != null) {
-				employee.setMaxNumbersOfOrders(dto.getMaxNumbersOfOrders());
-				employee.setFirstName(dto.getFirstName());
-				employee.setLastName(dto.getLastName());
-
-				return employee;
-			} else {
-				throw new EmployeeNotFoundException(ResponseMessageConstants.EMPLOYEE_NOT_FOUND);
-			}
-		} else {
+		if(dto.getEmployeeId() == null)
 			throw new RuntimeException(ResponseMessageConstants.EMPLOYEE_IS_EMPTY);
-		}
+
+		Employee employee = getEmployeeById(dto.getEmployeeId());
+
+		employee.setMaxNumbersOfOrders(dto.getMaxNumbersOfOrders());
+		employee.setFirstName(dto.getFirstName());
+		employee.setLastName(dto.getLastName());
+
+		return employee;
 	}
 }

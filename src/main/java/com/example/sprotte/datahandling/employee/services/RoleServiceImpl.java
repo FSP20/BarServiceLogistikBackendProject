@@ -27,67 +27,66 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role saveRole(String roleName) {
-        if(roleName != null) {
-            // Proof Description Role already exist
-            Role testRole = findByDescription(roleName);
-            if(testRole == null) {
-                Role role = new Role();
-                role.setDescription(roleName);
-                return roleRepository.save(role);
-            } else {
-                throw new IllegalRoleException(ResponseMessageConstants.ROLE_ALREADY_EXIST);
-            }
-        } else {
+        if(roleName == null)
             throw new RuntimeException(ResponseMessageConstants.ROLE_IS_EMPTY);
-        }
+
+        // Proof Description Role already exist
+        Role role = findRoleByDescription(roleName);
+        if(role != null)
+            throw new IllegalRoleException(ResponseMessageConstants.ROLE_ALREADY_EXIST);
+
+        role = new Role();
+        role.setDescription(roleName);
+
+        return roleRepository.save(role);
     }
 
     @Override
     public Role findRoleById(Long roleId) {
         Role role = findById(roleId);
-        if(role == null)
-            throw new RoleNotFoundException(ResponseMessageConstants.ROLE_NOT_FOUND);
 
         return role;
     }
 
     @Override
     public Role findByRoleName(String roleDescription) {
-        Role role = findByDescription(roleDescription);
+        Role role = findRoleByDescription(roleDescription);
         if(role == null)
             throw new RoleNotFoundException(ResponseMessageConstants.ROLE_NOT_FOUND);
+
         return role;
     }
 
     @Override
     public Role updateRoleById(Long roleId, String roleName) {
-        if(roleName != null) {
-            Role role = findById(roleId);
-            if(role == null)
-                throw new RoleNotFoundException(ResponseMessageConstants.ROLE_NOT_FOUND);
-
-            role.setDescription(roleName);
-            return roleRepository.save(role);
-        } else {
+        if(roleName == null)
             throw new RuntimeException(ResponseMessageConstants.ROLE_IS_EMPTY);
-        }
+
+        Role role = findById(roleId);
+
+        role.setDescription(roleName);
+
+        return roleRepository.save(role);
     }
 
     @Override
     public String deleteRoleById(Long roleId) {
         Role role = findById(roleId);
-        if(role == null)
-            throw new RoleNotFoundException(ResponseMessageConstants.ROLE_NOT_FOUND);
 
         roleRepository.deleteById(roleId);
+
         return ResponseMessageConstants.ROLE_SUCCESSFULLY_DELETE;
     }
 
     public Role findById(Long roleId){
-        return roleRepository.findById(roleId).orElse(null);
+        Role role =  roleRepository.findById(roleId).orElse(null);
+        if(role == null)
+            throw new RoleNotFoundException(ResponseMessageConstants.ROLE_NOT_FOUND);
+
+        return role;
     }
 
-    public Role findByDescription(String role) {
+    public Role findRoleByDescription(String role) {
         return roleRepository.findByDescription(role);
     }
 }

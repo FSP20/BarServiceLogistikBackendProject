@@ -36,14 +36,13 @@ public class StorageServiceImpl implements StorageService {
 
         storage = new Storage();
         storage.setStorageDescription(storageDescription);
+
         return storageRepository.save(storage);
     }
 
     @Override
     public Storage findStorageById(Long storageId) {
         Storage storage = findById(storageId);
-        if(storage == null)
-            throw new StorageNotFoundException(ResponseMessageConstants.STORAGE_NOT_FOUND);
 
         return storage;
     }
@@ -54,25 +53,27 @@ public class StorageServiceImpl implements StorageService {
             throw new RuntimeException(ResponseMessageConstants.STORAGE_IS_EMPTY);
 
         Storage storage = findById(storageId);
-        if(storage == null)
-            throw new StorageNotFoundException(ResponseMessageConstants.STORAGE_NOT_FOUND);
 
         storage.setStorageDescription(storageDescription);
+
         return storageRepository.save(storage);
     }
 
     @Override
     public String deleteStorageById(Long storageId) {
         Storage storage = findById(storageId);
-        if (storage == null)
-            throw new StorageNotFoundException(ResponseMessageConstants.STORAGE_NOT_FOUND);
 
         storageRepository.deleteById(storageId);
+
         return ResponseMessageConstants.STORAGE_SUCCESSFULLY_DELETE;
     }
 
     public Storage findById(Long storageId) {
-        return storageRepository.findById(storageId).orElse(null);
+        Storage storage = storageRepository.findById(storageId).orElse(null);
+        if(storage == null)
+            throw new StorageNotFoundException(ResponseMessageConstants.STORAGE_NOT_FOUND);
+
+        return storage;
     }
 
     public Storage findStorageByDescription(String storage) {

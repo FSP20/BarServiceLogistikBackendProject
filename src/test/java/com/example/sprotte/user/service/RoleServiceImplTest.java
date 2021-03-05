@@ -29,7 +29,7 @@ class RoleServiceImplTest {
         Role role = new Role();
         given(roleRepository.findByDescription(roleDescription)).willReturn(role);
 
-        Role foundRole = service.findByDescription(roleDescription);
+        Role foundRole = service.findRoleByDescription(roleDescription);
 
         assertThat(foundRole).isNotNull();
         then(roleRepository).should().findByDescription(anyString());

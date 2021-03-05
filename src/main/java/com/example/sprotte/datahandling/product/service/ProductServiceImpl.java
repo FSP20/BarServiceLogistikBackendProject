@@ -34,24 +34,20 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public Product saveProduct(SaveNewProductDto dto) {
-        if (dto.getProductDescription() != null) {
-            // Proof Product Description already exist
-            Product product = productRepository.findByDescription(dto.getProductDescription());
-            if (product == null) {
-                return productRepository.save(mapNewProductDtoToProduct(dto));
-            } else {
-                throw new IllegalProductException(ResponseMessageConstants.PRODUCT_ALREADY_EXIST);
-            }
-        } else {
+        if (dto.getProductDescription() != null)
             throw new RuntimeException(ResponseMessageConstants.PRODUCT_IS_EMPTY);
-        }
+
+        // Proof Product Description already exist
+        Product product = productRepository.findByDescription(dto.getProductDescription());
+        if (product != null)
+            throw new IllegalProductException(ResponseMessageConstants.PRODUCT_ALREADY_EXIST);
+
+        return productRepository.save(mapNewProductDtoToProduct(dto));
     }
 
     @Override
     public Product findProductById(Long productId) {
         Product product = findById(productId);
-        if(product == null)
-            throw new ProductNotFoundException(ResponseMessageConstants.PRODUCT_NOT_FOUND);
 
         return product;
     }
@@ -67,18 +63,16 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public Product updateProduct(UpdateProductDto dto) {
-        if(dto.getProductId() == 0) {
-            return productRepository.save(mapUpdateProductDtoToProduct(dto));
-        } else {
+        if(dto.getProductId() == 0)
             throw new RuntimeException(ResponseMessageConstants.PRODUCT_IS_EMPTY);
-        }
+
+        return productRepository.save(mapUpdateProductDtoToProduct(dto));
     }
 
     @Override
     public Product updateProductDescription(Long productId, String productDescription) {
         Product product = findById(productId);
-        if (product == null)
-            throw new ProductNotFoundException(ResponseMessageConstants.PRODUCT_NOT_FOUND);
+
         product.setDescription(productDescription);
 
         return productRepository.save(product);
@@ -89,9 +83,6 @@ public class ProductServiceImpl implements ProductService{
 
         ProductType productType = productTypeService.findProductTypeById(productTypeId);
         Product product = findById(productId);
-
-        if(product == null)
-            throw new ProductNotFoundException(ResponseMessageConstants.PRODUCT_NOT_FOUND);
 
         if (productType == null) {
             throw new ProductTypeNotFoundException(ResponseMessageConstants.PRODUCT_TYPE_NOT_FOUND +
@@ -106,15 +97,18 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public String deleteProductById(Long productId) {
         Product product = findById(productId);
-        if(product == null)
-            throw new ProductNotFoundException(ResponseMessageConstants.PRODUCT_NOT_FOUND);
 
         productRepository.deleteById(productId);
+
         return ResponseMessageConstants.PRODUCT_SUCCESSFULLY_DELETE;
     }
 
     Product findById(Long productId) {
-        return productRepository.findById(productId).orElse(null);
+        Product product = productRepository.findById(productId).orElse(null);
+        if (product == null)
+            throw new ProductNotFoundException(ResponseMessageConstants.PRODUCT_NOT_FOUND);
+
+        return product;
     }
 
     public Product mapNewProductDtoToProduct(SaveNewProductDto dto) {
@@ -129,8 +123,6 @@ public class ProductServiceImpl implements ProductService{
 
     public Product mapUpdateProductDtoToProduct(UpdateProductDto dto) {
         Product product = findById(dto.getProductId());
-        if (product == null)
-            throw new ProductNotFoundException(ResponseMessageConstants.PRODUCT_NOT_FOUND);
 
         product.setDescription(dto.getProductDescription());
         product.setQuantity(dto.getQuantity());

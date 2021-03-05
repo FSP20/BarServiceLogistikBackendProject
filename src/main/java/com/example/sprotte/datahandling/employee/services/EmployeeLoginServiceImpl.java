@@ -69,13 +69,12 @@ public class EmployeeLoginServiceImpl implements EmployeeLoginService{
 	//Create New Token and Timestamp for Employee when Login
 	public void updateTokenAndTimeStamp(String token) {
 		AccessData accessData = findByToken(token);
-		if(accessData != null) {
-			accessData.createNewTokenAndTimeStamp();
-
-			saveAccessData(accessData);
-		} else {
+		if(accessData == null)
 			throw new TokenNotFoundException(ResponseMessageConstants.TOKEN_NOT_FOUND);
-		}
+
+		accessData.createNewTokenAndTimeStamp();
+
+		saveAccessData(accessData);
 	}
 
 	
@@ -92,20 +91,19 @@ public class EmployeeLoginServiceImpl implements EmployeeLoginService{
 		if(!isEmployeeRegisteredOnDevice) {
 			Device device = findDeviceById(deviceId);
 			
-			if(device != null) {
-				// Device get Status "Active" because the Employee is logged in and active
-				device.setActive(true);
-
-				//Set Child in Parent
-				if(!employee.getDevices().contains(device)){
-					employee.getDevices().add(device);
-				}
-
-				//Set Parent in Child Entity
-				device.setEmployee(employee);
-			} else {
+			if(device == null)
 				throw new DeviceNotFoundException(ResponseMessageConstants.DEVICE_NOT_FOUND);
+
+			// Device get Status "Active" because the Employee is logged in and active
+			device.setActive(true);
+
+			//Set Child in Parent
+			if(!employee.getDevices().contains(device)){
+				employee.getDevices().add(device);
 			}
+
+			//Set Parent in Child Entity
+			device.setEmployee(employee);
 		}
 	}
 
