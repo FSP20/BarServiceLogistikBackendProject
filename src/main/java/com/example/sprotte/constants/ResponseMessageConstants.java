@@ -92,4 +92,10 @@ public class ResponseMessageConstants {
 	public static final String STORAGE_ALREADY_EXIST = "Storage with this description already exist";
 	public static final String STORAGE_SUCCESSFULLY_DELETE = "Storage successfully deleted";
 	public static final String STORAGE_IS_EMPTY = "Storage Object is empty";
+
+	// Ingredient
+	public static final String INGREDIENT_NOT_FOUND = "Ingredient not found";
+	public static final String INGREDIENT_ALREADY_EXIST = "Ingredient with given description already exist";
+	public static final String INGREDIENT_SUCCESSFULLY_DELETE = "Ingredient successfully deleted";
+	public static final String INGREDIENT_IS_EMPTY = "Ingredient Object is empty";
 }
