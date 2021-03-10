@@ -16,6 +16,7 @@ public class DatabaseConstants {
     public static final String PRODUCT_TABLE = "product";
     public static final String PRODUCT_TYPE_TABLE = "product_type";
     public static final String STORAGE_TABLE = "storage";
+    public static final String INGREDIENT_TABLE = "ingredient";
 
     // Join Table
     public static final String EMPLOYEE_HAS_ROLE = "employee_has_role";
@@ -103,4 +104,9 @@ public class DatabaseConstants {
     public static final String PRODUCT_STORAGE_CONTENT_RATIO_MAX_QUANTITY = "max_quantity";
     public static final String PRODUCT_STORAGE_CONTENT_RATIO_ACTUAL_QUANTITY = "actual_quantity";
     public static final String PRODUCT_STORAGE_CONTENT_RATIO_THRESHOLD = "threshold";
+
+    // Ingredient
+    public static final String ID_INGREDIENT = "id_ingredient";
+    public static final String INGREDIENT_QUANTITY = "quantity";
+    public static final String INGREDIENT_UNIT_OF_MEASURE = "unit_of_measure";
 }

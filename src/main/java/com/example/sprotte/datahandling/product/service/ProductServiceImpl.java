@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public Product saveProduct(SaveNewProductDto dto) {
-        if (dto.getProductDescription() != null)
+        if (dto.getProductDescription() == null)
             throw new RuntimeException(ResponseMessageConstants.PRODUCT_IS_EMPTY);
 
         // Proof Product Description already exist
