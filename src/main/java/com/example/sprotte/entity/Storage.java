@@ -18,7 +18,7 @@ public class Storage {
     private Long id;
 
     @Column(name = DatabaseConstants.STORAGE_DESCRIPTION)
-    private String storageDescription;
+    private String description;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "storage")
@@ -29,7 +29,7 @@ public class Storage {
     }
 
     public Storage(String storageDescription) {
-        this.storageDescription = storageDescription;
+        this.description = storageDescription;
     }
 
     public Long getId() {
@@ -40,12 +40,12 @@ public class Storage {
         this.id = id;
     }
 
-    public String getStorageDescription() {
-        return storageDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setStorageDescription(String storageDescription) {
-        this.storageDescription = storageDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public List<ContentRatioProductStorage> getRatioProductStorages() {

@@ -35,7 +35,7 @@ public class StorageServiceImpl implements StorageService {
             throw new IllegalStorageException(ResponseMessageConstants.STORAGE_ALREADY_EXIST);
 
         storage = new Storage();
-        storage.setStorageDescription(storageDescription);
+        storage.setDescription(storageDescription);
 
         return storageRepository.save(storage);
     }
@@ -54,7 +54,7 @@ public class StorageServiceImpl implements StorageService {
 
         Storage storage = findById(storageId);
 
-        storage.setStorageDescription(storageDescription);
+        storage.setDescription(storageDescription);
 
         return storageRepository.save(storage);
     }

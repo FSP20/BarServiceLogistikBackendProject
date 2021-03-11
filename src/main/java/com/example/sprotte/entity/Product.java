@@ -40,6 +40,12 @@ public class Product {
     @JoinColumn(name = DatabaseConstants.ID_PRODUCT_TYPE)
     private ProductType productType;
 
+    // Uni-Directional
+    @JsonManagedReference
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name=DatabaseConstants.ID_RECIPE, nullable = true)
+    private Recipe recipe;
+
     public Product () {
 
     }
@@ -96,5 +102,21 @@ public class Product {
 
     public void setProductType(ProductType productType) {
         this.productType = productType;
+    }
+
+    public List<ContentRatioProductStorage> getRatioProductStorages() {
+        return ratioProductStorages;
+    }
+
+    public void setRatioProductStorages(List<ContentRatioProductStorage> ratioProductStorages) {
+        this.ratioProductStorages = ratioProductStorages;
+    }
+
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
     }
 }

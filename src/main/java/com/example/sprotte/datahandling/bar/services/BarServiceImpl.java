@@ -81,7 +81,7 @@ public class BarServiceImpl implements BarService{
 
     @Override
     public String deleteBarById(Long barId) {
-        Bar bar = findById(barId);
+        findById(barId);
 
         barRepository.deleteById(barId);
 

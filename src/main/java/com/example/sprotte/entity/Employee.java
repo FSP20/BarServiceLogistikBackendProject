@@ -141,13 +141,13 @@ public class Employee {
 		this.devices = devices;
 	}
 
-	public List<WorkShift> getWorkShifts() {
-		return workShifts;
-	}
-
-	public void setWorkShifts(List<WorkShift> workShifts) {
-		this.workShifts = workShifts;
-	}
+//	public List<WorkShift> getWorkShifts() {
+//		return workShifts;
+//	}
+//
+//	public void setWorkShifts(List<WorkShift> workShifts) {
+//		this.workShifts = workShifts;
+//	}
 
 	@Override
 	public String toString() {

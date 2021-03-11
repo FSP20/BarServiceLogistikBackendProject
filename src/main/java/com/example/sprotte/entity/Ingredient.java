@@ -19,8 +19,8 @@ public class Ingredient {
     @Column(name = DatabaseConstants.INGREDIENT_UNIT_OF_MEASURE)
     private String unitOfMeasure;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name=DatabaseConstants.ID_INGREDIENT, nullable = false)
+    @OneToOne(fetch = FetchType.EAGER, cascade= {CascadeType.MERGE, CascadeType.DETACH}, optional = false)
+    @JoinColumn(name=DatabaseConstants.ID_PRODUCT, nullable = false)
     private Product product;
 
     public Ingredient() {

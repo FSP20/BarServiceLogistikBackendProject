@@ -98,4 +98,10 @@ public class ResponseMessageConstants {
 	public static final String INGREDIENT_ALREADY_EXIST = "Ingredient with given description already exist";
 	public static final String INGREDIENT_SUCCESSFULLY_DELETE = "Ingredient successfully deleted";
 	public static final String INGREDIENT_IS_EMPTY = "Ingredient Object is empty";
+
+	// Recipe
+	public static final String RECIPE_NOT_FOUND = "Recipe not found";
+	public static final String RECIPE_ALREADY_EXIST = "Recipe with given description already exist";
+	public static final String RECIPE_SUCCESSFULLY_DELETE = "Recipe successfully deleted";
+	public static final String RECIPE_IS_EMPTY = "Recipe Object is empty";
 }

@@ -17,12 +17,14 @@ public class DatabaseConstants {
     public static final String PRODUCT_TYPE_TABLE = "product_type";
     public static final String STORAGE_TABLE = "storage";
     public static final String INGREDIENT_TABLE = "ingredient";
+    public static final String RECIPE_TABLE = "recipe";
 
     // Join Table
     public static final String EMPLOYEE_HAS_ROLE = "employee_has_role";
     public static final String EMPLOYEE_HAS_WORK_SHIFT = "employee_has_work_shift";
     public static final String PRODUCT_BAR_CONTAINER_CONTENT_RATIO = "product_barcontainer_contentratio";
     public static final String PRODUCT_STORAGE_CONTENT_RATIO = "storage_has_product";
+    public static final String RECIPE_HAS_INGREDIENTS = "recipe_has_ingredient";
 
     // Attribute Name
     // Access Data
@@ -109,4 +111,8 @@ public class DatabaseConstants {
     public static final String ID_INGREDIENT = "id_ingredient";
     public static final String INGREDIENT_QUANTITY = "quantity";
     public static final String INGREDIENT_UNIT_OF_MEASURE = "unit_of_measure";
+
+    // Recipe
+    public static final String ID_RECIPE = "id_recipe";
+    public static final String RECIPE_DESCRIPTION = "description";
 }
